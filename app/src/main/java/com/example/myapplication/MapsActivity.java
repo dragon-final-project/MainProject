@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.JsonReader;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,18 +48,17 @@ import com.google.maps.android.geojson.GeoJsonPointStyle;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,
-        android.location.LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener
+{
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private static final int REQUEST_FINE_LOCATION_PERMISSION = 102;
+
     private MarkerOptions markerOptions;
-    LocationManager locationManager;
-    private  GeoJsonLayer layer1;
+    private GeoJsonLayer layer1;
     Marker currentMarker = null;
-
-
-
+    private double latitude;
+    private double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,13 +86,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
+
+
+
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        try {
+      /*  try {
             GeoJsonLayer layer1 = new GeoJsonLayer(googleMap, R.raw.style_high,
                     getApplicationContext());
             layer1.addLayerToMap();
+
+
 
             GeoJsonLayer layer2 = new GeoJsonLayer(mMap, R.raw.style_mid,
                     getApplicationContext());
@@ -104,9 +110,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
+           */
 
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
+            @Override
+            public void onMapClick(LatLng latLng) {
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.title("右下可導航至此標記點");
+                markerOptions.position(latLng);
+                mMap.addMarker(markerOptions);
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
+                Toast.makeText(getApplicationContext(),
+                        "經度:" + latLng.latitude +
+                                " \n緯度:" + latLng.longitude,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         LatLng gaomei = new LatLng(22.626424, 120.265842);
@@ -115,6 +138,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         currentMarker =mMap.addMarker(new MarkerOptions()
                 .title("中山大學")
                 .position(gaomei));
+        currentMarker.setVisible(false);
+
+
 
         mMap.setOnPoiClickListener(new GoogleMap.OnPoiClickListener() {
             @Override
@@ -135,9 +161,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 if (currentMarker==null) {
                     // currentMarker = mMap.addMarker(new MarkerOptions().position(poi.latLng).title("右下導航"));
-                    currentMarker=mMap.addMarker(new MarkerOptions()
-                            .position(poi.latLng)
-                            .title("右下可導航至"+poi.name));
+                    currentMarker=mMap.addMarker(new MarkerOptions().position(poi.latLng).title("右下可導航至"+poi.name));
+                    /* mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(poi.latLng,15),5000,null);*/
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(poi.latLng));
 
 
                 }
@@ -160,12 +186,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    public void onClick(View view){
+        if(view.getId()== R.id.High ){
+            try {
+                GeoJsonLayer layer1 = new GeoJsonLayer(mMap, R.raw.style_high,
+                        getApplicationContext());
+                layer1.addLayerToMap();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if(view.getId()== R.id.Clear )
+            mMap.clear();
+    }
+
 
 
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(this, "鏡頭轉至目前位置",
+        Toast.makeText(getApplicationContext(), "我的位置 " +
+                        "\n經度:"  +
+                        " \n緯度:" ,
                 Toast.LENGTH_SHORT).show();
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         // Return false so that we don't consume the event and the default behavior still occurs
         // 直接讓鏡頭轉至使用者目前位置
 
@@ -194,9 +240,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // 在地圖上啟用「我的位置」圖層
             mMap.setMyLocationEnabled(true);
 
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
-
         }
     }
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -211,37 +254,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-    public void onLocationChanged(Location location) {
-        if (location != null){
-            String msg = "您的位置:" + "\n緯度：" + location.getLatitude()  + "\n經度：" + location.getLongitude();
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
-            LatLng UserPlace = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraPosition cameraPosition =
-                    new CameraPosition.Builder()
-                            .target(UserPlace)
-                            .zoom(mMap.getCameraPosition().zoom)
-                            .bearing(location.getBearing())
-                            .build();
-            // 使用動畫的效果移動地圖
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }
-        else{
-            Toast.makeText(this, "無法取得定位資訊", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(getBaseContext(), "GPS已經開啟", Toast.LENGTH_SHORT).show();
-
-    }
-    public void onProviderDisabled(String provider) {
-        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        startActivity(intent);
-        Toast.makeText(getBaseContext(), "GPS已關閉", Toast.LENGTH_SHORT).show();
-
-    }
 }
-
