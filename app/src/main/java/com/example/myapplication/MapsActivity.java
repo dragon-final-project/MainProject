@@ -59,12 +59,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int REQUEST_FINE_LOCATION_PERMISSION = 102;
     LocationManager locationManager;
     private MarkerOptions markerOptions;
-    private GeoJsonLayer layer1;
+    private GeoJsonLayer layer1,layer2,layer3;
     Marker currentMarker = null;
     private double latitude;
     private double longitude;
+    private double lat,lng;
+    /*
     private double  lat=22.620314;
     private double  lng=120.213186;
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +134,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                 Toast.makeText(getApplicationContext(),
-                        "經度:" + latLng.longitude +
+                          "標記位置"+
+                                "\n經度:" + latLng.longitude +
                                 " \n緯度:" + latLng.latitude,
                         Toast.LENGTH_SHORT).show();
             }
@@ -198,6 +202,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 GeoJsonLayer layer1 = new GeoJsonLayer(mMap, R.raw.style_high,
                         getApplicationContext());
                 layer1.addLayerToMap();
+                layer1.getDefaultPolygonStyle().setStrokeColor(Color.rgb(250, 0, 0));
+                layer1.getDefaultPolygonStyle().setStrokeWidth(5);
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -205,7 +212,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 e.printStackTrace();
             }
         }
+        if(view.getId()== R.id.Mid ){
+            try {
+                GeoJsonLayer layer2 = new GeoJsonLayer(mMap, R.raw.style_mid,
+                        getApplicationContext());
+                layer2.addLayerToMap();
+                layer2.getDefaultPolygonStyle().setStrokeColor(Color.rgb(250, 250, 0));
+                layer2.getDefaultPolygonStyle().setStrokeWidth(5);
 
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(view.getId()== R.id.Low ){
+            try {
+                GeoJsonLayer layer3 = new GeoJsonLayer(mMap, R.raw.style_json,
+                        getApplicationContext());
+                layer3.addLayerToMap();
+                layer3.getDefaultPolygonStyle().setStrokeColor(Color.rgb(0, 250, 0));
+                layer3.getDefaultPolygonStyle().setStrokeWidth(5);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         if(view.getId()== R.id.Clear )
             mMap.clear();
     }
@@ -214,15 +250,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public boolean onMyLocationButtonClick() {
 
+        if(lat!=0.0&&lng!=0.0) {
+            Toast.makeText(getApplicationContext(), "我的位置: " +
+                            "\n經度:" + lng +
+                            " \n緯度:" + lat,
+                    Toast.LENGTH_SHORT).show();
+        }
+        else{
 
-        Toast.makeText(getApplicationContext(), "我的位置: " +
-                        "\n經度:" +lng+
-                        " \n緯度:" +lat,
-                Toast.LENGTH_SHORT).show();
-
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // 直接讓鏡頭轉至使用者目前位置
-
+            Toast.makeText(getApplicationContext(), "我的位置: " +
+                            "\n經度:loading" +
+                            " \n緯度:loading" ,
+                    Toast.LENGTH_SHORT).show();
+        }
         return false;
     }
     private void enableMyLocation() {
@@ -249,12 +289,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // 在地圖上啟用「我的位置」圖層
             mMap.setMyLocationEnabled(true);
             locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 1, this);
-            Location location =  locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); // 設定定位資訊由 GPS提供
-            if (location != null) {
-                lat = location.getLatitude();  // 取得經度
-                lng = location.getLongitude(); // 取得緯度
-            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,60000, 0, this);
+
+
         }
     }
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -271,7 +308,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
     public void onLocationChanged(Location location) {
         if (location != null){
-
+            lat = location.getLatitude();  // 取得經度
+            lng = location.getLongitude(); // 取得緯度
 
             LatLng UserPlace = new LatLng(location.getLatitude(), location.getLongitude());
             CameraPosition cameraPosition =
@@ -281,8 +319,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .bearing(location.getBearing())
                             .build();
             // 使用動畫的效果移動地圖
-           /* mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                      */
+            /* mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+             */
 
         }
         else{
@@ -300,7 +338,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(intent);
         Toast.makeText(getBaseContext(), "GPS已關閉", Toast.LENGTH_SHORT).show();
     }
-
 
 
 }
