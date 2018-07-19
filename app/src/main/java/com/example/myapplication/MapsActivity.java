@@ -1,15 +1,19 @@
 package com.example.myapplication;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.nfc.Tag;
 import android.os.Build;
+import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -48,18 +52,19 @@ import com.google.maps.android.geojson.GeoJsonPointStyle;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener
-{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMyLocationButtonClickListener,
+        android.location.LocationListener {
     private static final String TAG = MapsActivity.class.getSimpleName();
     private GoogleMap mMap;
     private static final int REQUEST_FINE_LOCATION_PERMISSION = 102;
-
+    LocationManager locationManager;
     private MarkerOptions markerOptions;
     private GeoJsonLayer layer1;
     Marker currentMarker = null;
     private double latitude;
     private double longitude;
-
+    private double  lat=22.620314;
+    private double  lng=120.213186;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
            */
 
+
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -125,8 +131,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
                 Toast.makeText(getApplicationContext(),
-                        "經度:" + latLng.latitude +
-                                " \n緯度:" + latLng.longitude,
+                        "經度:" + latLng.longitude +
+                                " \n緯度:" + latLng.latitude,
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -170,8 +176,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Toast.makeText(getApplicationContext(), "標記名稱: " +
                                 poi.name +
-                                "\n經度:" + poi.latLng.latitude +
-                                " \n緯度:" + poi.latLng.longitude,
+                                "\n經度:" + poi.latLng.longitude +
+                                " \n緯度:" + poi.latLng.latitude,
                         Toast.LENGTH_SHORT).show();
 
 
@@ -207,9 +213,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     public boolean onMyLocationButtonClick() {
-        Toast.makeText(getApplicationContext(), "我的位置 " +
-                        "\n經度:"  +
-                        " \n緯度:" ,
+
+
+        Toast.makeText(getApplicationContext(), "我的位置: " +
+                        "\n經度:" +lng+
+                        " \n緯度:" +lat,
                 Toast.LENGTH_SHORT).show();
 
         // Return false so that we don't consume the event and the default behavior still occurs
@@ -218,6 +226,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return false;
     }
     private void enableMyLocation() {
+
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.  詢問使用者開啟權限
@@ -239,7 +248,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else if (mMap != null) {
             // 在地圖上啟用「我的位置」圖層
             mMap.setMyLocationEnabled(true);
-
+            locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 1, this);
+            Location location =  locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER); // 設定定位資訊由 GPS提供
+            if (location != null) {
+                lat = location.getLatitude();  // 取得經度
+                lng = location.getLongitude(); // 取得緯度
+            }
         }
     }
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -254,5 +269,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+    public void onLocationChanged(Location location) {
+        if (location != null){
+
+
+            LatLng UserPlace = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraPosition cameraPosition =
+                    new CameraPosition.Builder()
+                            .target(UserPlace)
+                            .zoom(mMap.getCameraPosition().zoom)
+                            .bearing(location.getBearing())
+                            .build();
+            // 使用動畫的效果移動地圖
+           /* mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                      */
+
+        }
+        else{
+            Toast.makeText(this, "無法取得定位資訊", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(getBaseContext(), "GPS已經開啟", Toast.LENGTH_SHORT).show();
+    }
+    public void onProviderDisabled(String provider) {
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
+        Toast.makeText(getBaseContext(), "GPS已關閉", Toast.LENGTH_SHORT).show();
+    }
+
+
 
 }
