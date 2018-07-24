@@ -75,7 +75,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         btnSelectPhoto.setOnClickListener(this);
 
 //        upLoadServerUri = "http://192.168.42.197/php/UploadToServer.php";
-        upLoadServerUri = "http://140.117.71.66:8000/app/upload";
+        upLoadServerUri = "http://140.117.71.66:8000/app/upload/";
     }
 
     @Override
