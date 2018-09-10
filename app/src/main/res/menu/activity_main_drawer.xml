@@ -25,13 +25,13 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:id="@+id/nav_ingredient"
+                android:icon="@drawable/carrot"
+                android:title="食材查詢" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_meal"
+                android:icon="@drawable/meal"
+                android:title="餐點查詢" />
         </menu>
     </item>
 
