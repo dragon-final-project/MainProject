@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -135,7 +136,14 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == getActivity().RESULT_OK) {
+        if(requestCode == REQUEST_TAKE_PHOTO && resultCode == getActivity().RESULT_CANCELED){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("儲存動作");
+            builder.setMessage("照片即將遺失，確定執行此動作?");
+            builder.setNegativeButton("返回",null);
+            builder.show();
+        }
+        else if(requestCode == REQUEST_TAKE_PHOTO && resultCode == getActivity().RESULT_OK) {
             Intent intent = new Intent();
             intent.setType("image/*");
 //            intent.setAction(Intent.ACTION_GET_CONTENT);
