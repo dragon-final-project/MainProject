@@ -26,14 +26,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class CameraFragment extends Fragment implements View.OnClickListener {
@@ -75,7 +81,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
         btnSelectPhoto.setOnClickListener(this);
 
 //        upLoadServerUri = "http://192.168.42.197/php/UploadToServer.php";
-        upLoadServerUri = "http://140.117.71.66:8000/app/upload";
+        upLoadServerUri = "http://140.117.71.66:8800/app/upload/";
     }
 
     @Override
@@ -268,11 +274,28 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 Log.i("uploadFile", "HTTP Response is : "
                         + serverResponseMessage + ": " + serverResponseCode);
 
+                //接收回傳字串
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                final StringBuilder sb = new StringBuilder();
+                String line;
+                while((line=br.readLine())!=null){
+                    sb.append(line+"\n");
+                }
+                br.close();
+
+                Gson gson = new Gson();
+                DataColumn[] data = gson.fromJson(line,DataColumn[].class);
+                ArrayList<DataColumn> list = new ArrayList<>(Arrays.asList(data));
+                for(DataColumn s : list){
+                    Log.i("name: ",s.getName());
+                    Log.i("ingredients: ",s.getIngredients().toString());
+                }
+
                 if(serverResponseCode == 200){
 
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
-                            String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n";
+                            String msg = "File Upload Completed.\n\n See uploaded file your server. \n\n" + sb;
                             messageText.setText(msg);
                             Toast.makeText(getActivity(), "File Upload Complete.", Toast.LENGTH_SHORT).show();
                         }
