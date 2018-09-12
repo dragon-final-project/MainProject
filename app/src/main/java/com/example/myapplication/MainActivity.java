@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,9 +18,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+
+    private Button btnMeal,btnIngredient,btnNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        findViewId();
+    }
+
+    private void findViewId() {
+        btnMeal = findViewById(R.id.btnMeal);
+        btnIngredient = findViewById(R.id.btnIngredient);
+        btnNews = findViewById(R.id.btnNews);
+        btnMeal.setOnClickListener(this);
+        btnIngredient.setOnClickListener(this);
+        btnNews.setOnClickListener(this);
     }
 
     @Override
@@ -108,5 +133,22 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()){
+            case R.id.btnMeal:
+                break;
+            case R.id.btnIngredient:
+                intent = new Intent(MainActivity.this,TestActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnNews:
+                intent = new Intent(MainActivity.this,NewsActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

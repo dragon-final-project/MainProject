@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -287,8 +289,8 @@ public class CameraFragment extends Fragment implements View.OnClickListener {
                 DataColumn[] data = gson.fromJson(line,DataColumn[].class);
                 ArrayList<DataColumn> list = new ArrayList<>(Arrays.asList(data));
                 for(DataColumn s : list){
-                    Log.i("name: ",s.getName());
-                    Log.i("ingredients: ",s.getIngredients().toString());
+//                    Log.i("name: ",s.getName());
+//                    Log.i("ingredients: ",s.getIngredients().toString());
                 }
 
                 if(serverResponseCode == 200){
