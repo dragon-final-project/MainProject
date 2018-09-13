@@ -32,11 +32,18 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     private Button btnMeal,btnIngredient,btnNews;
+    private boolean isLogin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        if(isLogin) {
+            setContentView(R.layout.activity_main);
+        }
+        else{
+            setContentView(R.layout.no_login_main);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -138,11 +145,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         Intent intent;
+        Bundle bundle;
         switch (view.getId()){
             case R.id.btnMeal:
+                intent = new Intent(MainActivity.this,InputActivity.class);
+                bundle = new Bundle();
+                bundle.putInt("INPUT_TYPE",1); //input type = 1 是查詢餐點
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             case R.id.btnIngredient:
-                intent = new Intent(MainActivity.this,TestActivity.class);
+                intent = new Intent(MainActivity.this,InputActivity.class);
+                bundle = new Bundle();
+                bundle.putInt("INPUT_TYPE",2); //input type = 2 是查詢食材
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.btnNews:
