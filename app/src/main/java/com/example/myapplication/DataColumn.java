@@ -14,10 +14,12 @@ public class DataColumn {
 //    private String img_path;
     private String title;
     private String name;
+    private String created_at;
 
-    public DataColumn(String title,String name){
+    public DataColumn(String title,String name,String created_at){
         this.title = title;
         this.name = name;
+        this.created_at = created_at;
     }
 
 
@@ -35,5 +37,13 @@ public class DataColumn {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 }

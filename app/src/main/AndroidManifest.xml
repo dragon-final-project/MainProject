@@ -64,7 +64,8 @@
         <activity android:name=".NewsActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".InputActivity" />
-        <activity android:name=".SearchResultActivity"></activity>
+        <activity android:name=".SearchResultActivity" />
+        <activity android:name=".ItemDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -22,19 +22,19 @@ public class TestActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listView);
         list = new ArrayList<>();
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
-        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
+//        list.add(new DataColumn("涼菜湯","小當家"));
 
         adapter = new GridViewAdapter(TestActivity.this,1,list);
 

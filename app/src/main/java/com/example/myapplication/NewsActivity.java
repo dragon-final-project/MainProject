@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,7 +47,15 @@ public class NewsActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+//                String title = list.get(i).getTitle();
+//                String name = list.get(i).getName();
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(NewsActivity.this,ItemDetailActivity.class);
+                bundle.putString("title",list.get(i).getTitle());
+                bundle.putString("name",list.get(i).getName());
+                bundle.putString("created_at",list.get(i).getCreated_at());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
