@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/btnHeaderLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -38,12 +38,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="登入"
-        app:layout_constraintEnd_toStartOf="@+id/button9"
+        app:layout_constraintEnd_toStartOf="@+id/btnHeaderView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/btnHeaderView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

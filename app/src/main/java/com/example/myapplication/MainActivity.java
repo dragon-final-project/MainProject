@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.DrawableWrapper;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -9,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -32,18 +37,27 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
     private Button btnMeal,btnIngredient,btnNews;
-    private boolean isLogin = true;
+    private Button btnHeaderLogin,btnHeaderView,btnHeaderEdit,btnHeaderLogout;
+    private TextView tvHeaderName;
+    private boolean isLogin = false;
+    private static final int LOGIN_REQUEST_CODE = 100;
+
+    private DrawerLayout drawerLayout;
+
+    public static String user_id;
+    private static String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.no_login_main);
 
-        if(isLogin) {
-            setContentView(R.layout.activity_main);
-        }
-        else{
-            setContentView(R.layout.no_login_main);
-        }
+//        if(isLogin) {
+//            setContentView(R.layout.activity_main);
+//        }
+//        else{
+//            setContentView(R.layout.no_login_main);
+//        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,10 +76,53 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//
+//        View headerLayout = navigationView.getHeaderView(0);
+//        if(isLogin){
+//            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
+//            btnHeaderEdit.setOnClickListener(this);
+//        }else{
+//
+//            btnHeaderLogin = headerLayout.findViewById(R.id.btnHeaderLogin);
+//            btnHeaderView = headerLayout.findViewById(R.id.btnHeaderView);
+//            btnHeaderLogin.setOnClickListener(this);
+//            btnHeaderView.setOnClickListener(this);
+//        }
+
+        findViewId();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        findViewId();
+        View headerLayout = navigationView.getHeaderView(0);
+//        Menu menuLayout = navigationView.getMenu();
+        if(isLogin){
+            navigationView.removeHeaderView(headerLayout);
+            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+            navigationView.inflateMenu(R.menu.activity_main_drawer);
+            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
+            btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
+            tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
+            tvHeaderName.setText(name);
+            btnHeaderEdit.setOnClickListener(this);
+            btnHeaderLogout.setOnClickListener(this);
+        }else{
+            navigationView.removeHeaderView(headerLayout);
+            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_no_login);
+            Menu menu = navigationView.getMenu();
+            menu.clear();
+
+            btnHeaderLogin = headerLayout.findViewById(R.id.btnHeaderLogin);
+            btnHeaderView = headerLayout.findViewById(R.id.btnHeaderView);
+            btnHeaderLogin.setOnClickListener(this);
+            btnHeaderView.setOnClickListener(this);
+        }
     }
 
     private void findViewId() {
@@ -115,13 +172,16 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
+        Intent intent;
 
         if (id == R.id.nav_camera) {
             fragment = new CameraFragment();
         } else if (id == R.id.nav_album) {
             fragment = new AlbumFragment();
         } else if (id == R.id.nav_map) {
-            fragment = new MapFragment();
+//            fragment = new MapFragment();
+            intent = new Intent(MainActivity.this,MyFacoriteActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_ingredient) {
@@ -165,6 +225,46 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(MainActivity.this,NewsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btnHeaderLogin:
+                intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivityForResult(intent,LOGIN_REQUEST_CODE);
+                break;
+            case R.id.btnHeaderView:
+                Toast.makeText(MainActivity.this,"View",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnHeaderEdit:
+                Toast.makeText(MainActivity.this,"Edit",Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnHeaderLogout:
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("登出系統");
+                builder.setMessage("確定登出系統?");
+                builder.setNegativeButton("取消",null);
+                builder.setPositiveButton("登出", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        isLogin = false;
+                        onResume();
+                    }
+                });
+                builder.show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==requestCode){
+            isLogin = data.getBooleanExtra("isLogin",false);
+            name = data.getStringExtra("name");
+            user_id = data.getStringExtra("user_id");
+//            if(isLogin){
+//                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//                View headerLayout = navigationView.getHeaderView(0);
+//                navigationView.setNavigationItemSelectedListener(this);
+//                navigationView.removeHeaderView(headerLayout);
+//                headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

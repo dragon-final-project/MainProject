@@ -7,19 +7,19 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="我的食譜" />
         <item
             android:id="@+id/nav_album"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Album" />
+            android:title="寫食譜" />
         <item
             android:id="@+id/nav_map"
             android:icon="@drawable/location"
-            android:title="Map" />
+            android:title="我的收藏" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="瀏覽紀錄" />
     </group>
 
     <item android:title="Communicate">

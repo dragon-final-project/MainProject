@@ -65,7 +65,11 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".InputActivity" />
         <activity android:name=".SearchResultActivity" />
-        <activity android:name=".ItemDetailActivity"></activity>
+        <activity android:name=".ItemDetailActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpFinishActivity" />
+        <activity android:name=".MyFacoriteActivity"></activity>
     </application>
 
 </manifest>

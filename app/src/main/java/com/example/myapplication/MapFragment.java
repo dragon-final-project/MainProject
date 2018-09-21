@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PointOfInterest;
-import com.google.maps.android.geojson.GeoJsonLayer;
+//import com.google.maps.android.geojson.GeoJsonLayer;
 
 import org.json.JSONException;
 
@@ -51,7 +51,7 @@ public class MapFragment extends Fragment {
 
         Intent intent = new Intent();
         //從MainActivity 到Main2Activity
-        intent.setClass(getActivity() , MapsActivity.class);
+//        intent.setClass(getActivity() , MapsActivity.class);
         //開啟Activity
         startActivity(intent);
     }

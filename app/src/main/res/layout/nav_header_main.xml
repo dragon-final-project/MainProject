@@ -29,7 +29,7 @@
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvHeaderName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
@@ -40,15 +40,15 @@
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/btnHeaderEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="編輯"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -60,5 +60,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/notification" />
+
+    <Button
+        android:id="@+id/btnHeaderLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="登出"
+        app:layout_constraintStart_toEndOf="@+id/btnHeaderEdit"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
 </android.support.constraint.ConstraintLayout>

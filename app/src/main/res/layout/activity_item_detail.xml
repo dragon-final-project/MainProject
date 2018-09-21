@@ -22,7 +22,7 @@
         app:srcCompat="@drawable/noodle" />
 
     <ImageButton
-        android:id="@+id/ibLike"
+        android:id="@+id/ibView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
@@ -42,7 +42,7 @@
         android:layout_marginTop="8dp"
         android:text="菜名: "
         app:layout_constraintStart_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/ibLike" />
+        app:layout_constraintTop_toBottomOf="@+id/ibView" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -53,7 +53,7 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/ibLike" />
+        app:layout_constraintTop_toBottomOf="@+id/ibView" />
 
     <TextView
         android:id="@+id/textView11"
@@ -137,8 +137,9 @@
         app:layout_constraintTop_toBottomOf="@+id/button11" />
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="368dp"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,21 +149,20 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:ems="10"
         android:hint="你想說什麼"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
@@ -170,7 +170,6 @@
         android:text="傳送"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic" />
+        app:layout_constraintStart_toEndOf="@+id/editText" />
 
 </android.support.constraint.ConstraintLayout>

@@ -51,6 +51,7 @@ public class NewsActivity extends AppCompatActivity {
 //                String name = list.get(i).getName();
                 Bundle bundle = new Bundle();
                 Intent intent = new Intent(NewsActivity.this,ItemDetailActivity.class);
+                bundle.putString("id",list.get(i).getId());
                 bundle.putString("title",list.get(i).getTitle());
                 bundle.putString("name",list.get(i).getName());
                 bundle.putString("created_at",list.get(i).getCreated_at());

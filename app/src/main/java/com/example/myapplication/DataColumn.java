@@ -12,16 +12,25 @@ public class DataColumn {
 //    private String title;
 //    private String avg_star;
 //    private String img_path;
+    private String id;
     private String title;
     private String name;
     private String created_at;
 
-    public DataColumn(String title,String name,String created_at){
+    public DataColumn(String id,String title,String name,String created_at){
+        this.id = id;
         this.title = title;
         this.name = name;
         this.created_at = created_at;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
