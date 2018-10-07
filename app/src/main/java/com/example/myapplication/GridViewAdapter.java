@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -12,7 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +39,7 @@ public class GridViewAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
 
         if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.item,null);
@@ -45,12 +54,22 @@ public class GridViewAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        DataColumn data = (DataColumn) getItem(position);
+        final DataColumn data = (DataColumn) getItem(position);
+        final Bitmap bitmap;
 //        viewHolder.tvName.setText(data.getName());
 //        viewHolder.tvIngredient.setText(data.getIngredients());
 //        viewHolder.tvInstruction.setText(data.getInstruction());
         viewHolder.tvName.setText(data.getTitle());
         viewHolder.tvCreator.setText(data.getName());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(!data.getImg_path().equals("none")){
+                    final Bitmap bitmap = getBitmapFromURL(data.getImg_path());
+                }
+            }
+        }).start();
 
         return convertView;
     }
@@ -65,6 +84,22 @@ public class GridViewAdapter extends ArrayAdapter {
             this.tvName = tvName;
             this.tvCreator = tvCreator;
             this.imgMeal = imgMeal;
+        }
+    }
+
+    public static Bitmap getBitmapFromURL(String src){
+        try{
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.connect();
+
+            InputStream input = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            return bitmap;
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return null;
         }
     }
 }

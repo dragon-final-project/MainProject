@@ -3,25 +3,19 @@ package com.example.myapplication;
 import java.util.ArrayList;
 
 public class DataColumn {
-//    private String name;
-//    private String ingredients;
-//    private String instruction;
 
-//    private String id;
-//    private String creator_id;
-//    private String title;
-//    private String avg_star;
-//    private String img_path;
     private String id;
     private String title;
     private String name;
     private String created_at;
+    private String img_path;
 
-    public DataColumn(String id,String title,String name,String created_at){
+    public DataColumn(String id,String title,String name,String created_at,String img_path){
         this.id = id;
         this.title = title;
         this.name = name;
         this.created_at = created_at;
+        this.img_path = img_path;
     }
 
     public String getId() {
@@ -54,5 +48,13 @@ public class DataColumn {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public String getImg_path() {
+        return img_path;
+    }
+
+    public void setImg_path(String img_path) {
+        this.img_path = img_path;
     }
 }

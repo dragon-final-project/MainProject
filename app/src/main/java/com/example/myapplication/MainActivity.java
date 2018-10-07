@@ -36,7 +36,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
 
-    private Button btnMeal,btnIngredient,btnNews;
+    private Button btnMeal,btnIngredient,btnNews,btnAddRecipe;
     private Button btnHeaderLogin,btnHeaderView,btnHeaderEdit,btnHeaderLogout;
     private TextView tvHeaderName;
     private boolean isLogin = false;
@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity
 
     public static String user_id;
     private static String name;
+
+    public static NavigationView navigationView;
+    public static View headerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +64,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,21 +100,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        View headerLayout = navigationView.getHeaderView(0);
+//        View headerLayout = navigationView.getHeaderView(0);
+        headerLayout = navigationView.getHeaderView(0);
+
 //        Menu menuLayout = navigationView.getMenu();
+
         if(isLogin){
-            navigationView.removeHeaderView(headerLayout);
-            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-            navigationView.inflateMenu(R.menu.activity_main_drawer);
-            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
-            btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
-            tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
-            tvHeaderName.setText(name);
-            btnHeaderEdit.setOnClickListener(this);
-            btnHeaderLogout.setOnClickListener(this);
+//            navigationView.removeHeaderView(headerLayout);
+//            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+//            navigationView.inflateMenu(R.menu.activity_main_drawer);
+//            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
+//            btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
+//            tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
+//            tvHeaderName.setText(name);
+//            btnHeaderEdit.setOnClickListener(this);
+//            btnHeaderLogout.setOnClickListener(this);
         }else{
             navigationView.removeHeaderView(headerLayout);
             headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_no_login);
@@ -129,9 +136,11 @@ public class MainActivity extends AppCompatActivity
         btnMeal = findViewById(R.id.btnMeal);
         btnIngredient = findViewById(R.id.btnIngredient);
         btnNews = findViewById(R.id.btnNews);
+        btnAddRecipe = findViewById(R.id.btnAddRecipe);
         btnMeal.setOnClickListener(this);
         btnIngredient.setOnClickListener(this);
         btnNews.setOnClickListener(this);
+        btnAddRecipe.setOnClickListener(this);
     }
 
     @Override
@@ -177,7 +186,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             fragment = new CameraFragment();
         } else if (id == R.id.nav_album) {
-            fragment = new AlbumFragment();
+
         } else if (id == R.id.nav_map) {
 //            fragment = new MapFragment();
             intent = new Intent(MainActivity.this,MyFacoriteActivity.class);
@@ -225,12 +234,17 @@ public class MainActivity extends AppCompatActivity
                 intent = new Intent(MainActivity.this,NewsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btnAddRecipe:
+                intent = new Intent(MainActivity.this,AddRecipeActivity.class);
+                startActivity(intent);
+                break;
             case R.id.btnHeaderLogin:
                 intent = new Intent(MainActivity.this,LoginActivity.class);
                 startActivityForResult(intent,LOGIN_REQUEST_CODE);
                 break;
             case R.id.btnHeaderView:
-                Toast.makeText(MainActivity.this,"View",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MainActivity.this,NewsActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnHeaderEdit:
                 Toast.makeText(MainActivity.this,"Edit",Toast.LENGTH_SHORT).show();
@@ -253,17 +267,28 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View headerLayout = navigationView.getHeaderView(0);
+
         if(requestCode==requestCode){
             isLogin = data.getBooleanExtra("isLogin",false);
             name = data.getStringExtra("name");
             user_id = data.getStringExtra("user_id");
-//            if(isLogin){
-//                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//                View headerLayout = navigationView.getHeaderView(0);
-//                navigationView.setNavigationItemSelectedListener(this);
-//                navigationView.removeHeaderView(headerLayout);
-//                headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-//            }
+
+            if(isLogin){
+            navigationView.removeHeaderView(headerLayout);
+            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+            navigationView.inflateMenu(R.menu.activity_main_drawer);
+            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
+            btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
+            tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
+            tvHeaderName.setText(name);
+            btnHeaderEdit.setOnClickListener(this);
+            btnHeaderLogout.setOnClickListener(this);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

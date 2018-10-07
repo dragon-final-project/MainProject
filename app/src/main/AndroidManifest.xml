@@ -69,7 +69,13 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SignUpFinishActivity" />
-        <activity android:name=".MyFacoriteActivity"></activity>
+        <activity android:name=".MyFacoriteActivity" />
+        <activity android:name=".AddRecipeActivity" />
+        <activity android:name=".AddIngredientActivity" />
+        <activity android:name=".AddInstructionActivity" />
+        <activity android:name=".AddRecipeResultActivity" />
+        <activity android:name=".InstructionActivity" />
+        <activity android:name=".IngredientActivity"></activity>
     </application>
 
 </manifest>
