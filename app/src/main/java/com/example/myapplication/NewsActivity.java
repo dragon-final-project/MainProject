@@ -16,7 +16,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -55,6 +57,8 @@ public class NewsActivity extends AppCompatActivity {
                 bundle.putString("title",list.get(i).getTitle());
                 bundle.putString("name",list.get(i).getName());
                 bundle.putString("created_at",list.get(i).getCreated_at());
+                bundle.putString("img_path",list.get(i).getImg_path());
+                //bundle.putByteArray("bitmap",bitmapToBytes(list.get(i).getBitmap()));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -119,5 +123,18 @@ public class NewsActivity extends AppCompatActivity {
         gridView.setStretchMode(GridView.NO_STRETCH);
         gridView.setNumColumns(size); // 设置列数量=列表集合数
 
+    }
+
+    private byte[] bitmapToBytes(Object o){
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(baos);
+            oos.writeObject(o);
+            return baos.toByteArray();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

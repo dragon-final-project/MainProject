@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 public class DataColumn {
@@ -9,13 +11,15 @@ public class DataColumn {
     private String name;
     private String created_at;
     private String img_path;
+    private Bitmap bitmap;
 
-    public DataColumn(String id,String title,String name,String created_at,String img_path){
+    public DataColumn(String id,String title,String name,String created_at,String img_path,Bitmap bitmap){
         this.id = id;
         this.title = title;
         this.name = name;
         this.created_at = created_at;
         this.img_path = img_path;
+        this.bitmap = bitmap;
     }
 
     public String getId() {
@@ -56,5 +60,13 @@ public class DataColumn {
 
     public void setImg_path(String img_path) {
         this.img_path = img_path;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

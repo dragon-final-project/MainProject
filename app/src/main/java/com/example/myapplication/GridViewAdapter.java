@@ -41,7 +41,7 @@ public class GridViewAdapter extends ArrayAdapter {
 
     public GridViewAdapter(@NonNull Context context, int resource, @NonNull List<DataColumn> objects) {
         super(context, resource, objects);
-        this.list = list;
+        this.list = (ArrayList) objects;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -79,6 +79,11 @@ public class GridViewAdapter extends ArrayAdapter {
                         @Override
                         public void run() {
                             viewHolder.imgMeal.setImageBitmap(bitmap);
+//                            for(int i=0;i<list.size();i++){
+//                                if(i==list.size()-1){
+//                                    list.get(i).setBitmap(bitmap);
+//                                }
+//                            }
                         }
                     });
                 }

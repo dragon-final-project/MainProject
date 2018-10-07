@@ -1,20 +1,25 @@
 package com.example.myapplication;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,6 +37,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView tvTitle,tvName,tvDate;
     private boolean isLike = false;
     private ListView listView;
+    private ImageView ivPic;
 
     private ArrayList<CommentData> list;
     private ArrayList<FavoriteData> favorite_list;
@@ -48,11 +54,27 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_item_detail);
 
         findViewId();
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         id = bundle.getString("id");
         tvTitle.setText(bundle.getString("title"));
         tvName.setText(bundle.getString("name"));
         tvDate.setText(bundle.getString("created_at"));
+
+//        Bitmap bitmap = (Bitmap) bytesToBitmap(bundle.getByteArray("bitmap"));
+//        ivPic.setImageBitmap(bitmap);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(bundle.getString("img_path"));
+                ivPic.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivPic.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        }).start();
 
         new JSONTask().execute(json_url);
     }
@@ -83,6 +105,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         btnInstruction = findViewById(R.id.btnInstruction);
         btnIngredient.setOnClickListener(this);
         btnInstruction.setOnClickListener(this);
+        ivPic = findViewById(R.id.ivPic);
         listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -226,6 +249,23 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 }
                 //Toast.makeText(ItemDetailActivity.this,favorite_list.get(i).getRecipe_id(),Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public Object bytesToBitmap( byte raw[] ) {
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(raw);
+            ObjectInputStream ois = new ObjectInputStream(bais);
+            Object o = ois.readObject();
+            return o;
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        catch (ClassNotFoundException e){
+            e.printStackTrace();
+            return null;
         }
     }
 }
