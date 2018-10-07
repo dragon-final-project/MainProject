@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +19,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class GridViewAdapter extends ArrayAdapter {
 
@@ -55,21 +64,26 @@ public class GridViewAdapter extends ArrayAdapter {
         }
 
         final DataColumn data = (DataColumn) getItem(position);
-        final Bitmap bitmap;
 //        viewHolder.tvName.setText(data.getName());
 //        viewHolder.tvIngredient.setText(data.getIngredients());
 //        viewHolder.tvInstruction.setText(data.getInstruction());
         viewHolder.tvName.setText(data.getTitle());
         viewHolder.tvCreator.setText(data.getName());
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(!data.getImg_path().equals("none")){
+        if(!data.getImg_path().equals("none")){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
                     final Bitmap bitmap = getBitmapFromURL(data.getImg_path());
+                    viewHolder.imgMeal.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewHolder.imgMeal.setImageBitmap(bitmap);
+                        }
+                    });
                 }
-            }
-        }).start();
+            }).start();
+        }
 
         return convertView;
     }
@@ -91,10 +105,12 @@ public class GridViewAdapter extends ArrayAdapter {
         try{
             URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setDoInput(true);
             connection.connect();
 
             InputStream input = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(input);
+            input.close();
             return bitmap;
         }
         catch(IOException e){
@@ -102,4 +118,5 @@ public class GridViewAdapter extends ArrayAdapter {
             return null;
         }
     }
+
 }
