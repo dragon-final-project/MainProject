@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <style name="EditTextStyle" >
+
+        <item name="colorControlNormal">@color/edit_text_normal_color</item>
+        <item name="colorControlActivated">@color/edit_text_activated_color</item>
+    </style>
+    <color name="edit_text_normal_color">#00FF00</color>
+    <color name="edit_text_activated_color">#00FF00</color>
+
+
 </resources>

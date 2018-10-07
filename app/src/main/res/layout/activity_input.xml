@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1ed7d70e"
     tools:context=".InputActivity">
 
     <TextView
@@ -21,8 +22,9 @@
 
     <Button
         android:id="@+id/btnCameraInput"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
         android:text="從相機"
         app:layout_constraintBottom_toTopOf="@+id/btnAlbumInput"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +34,9 @@
 
     <Button
         android:id="@+id/btnTextInput"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
         android:text="從文字"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,10 +46,9 @@
 
     <Button
         android:id="@+id/btnAlbumInput"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:background="@drawable/buttonshape"
         android:text="從相簿"
         app:layout_constraintBottom_toTopOf="@+id/btnTextInput"
         app:layout_constraintEnd_toEndOf="parent"

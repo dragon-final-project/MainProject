@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
-
+    android:background="#1ed7d70e"
     android:focusableInTouchMode="true"
     tools:context=".ItemDetailActivity">
 
@@ -101,11 +101,12 @@
 
     <Button
         android:id="@+id/btnIngredient"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="#FFEE99"
         android:text="食材"
         app:layout_constraintEnd_toStartOf="@+id/btnInstruction"
         app:layout_constraintHorizontal_bias="0.5"
@@ -114,9 +115,10 @@
 
     <Button
         android:id="@+id/btnInstruction"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
+        android:background="#FFEE99"
         android:text="作法"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -149,9 +151,10 @@
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:background="@android:drawable/edit_text"
         android:ems="10"
         android:hint="你想說什麼"
         android:inputType="textPersonName"
@@ -161,12 +164,13 @@
     <Button
         android:id="@+id/button14"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="43dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="8dp"
+        android:background="#FFEE99"
         android:text="傳送"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
