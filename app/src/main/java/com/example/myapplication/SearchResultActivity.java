@@ -60,6 +60,7 @@ public class SearchResultActivity extends AppCompatActivity {
                 bundle.putString("title",list.get(i).getTitle());
                 bundle.putString("name",list.get(i).getName());
                 bundle.putString("created_at",list.get(i).getCreated_at());
+                bundle.putString("img_path",list.get(i).getImg_path());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

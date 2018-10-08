@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -28,9 +30,9 @@ import okhttp3.Response;
 
 public class NewsActivity extends AppCompatActivity {
     private GridView gridView,gridView2;
-    private ProgressBar progressBar;
 
     private String json_url = "http://140.117.71.66/project/get_all_recipe_json.php";
+    private String hot_recipe_json_url = "http://140.117.71.66/project/get_hot_recipe.php";
     private GridViewAdapter adapter;
     private static ArrayList<DataColumn> list;
 
@@ -40,6 +42,7 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
 
         findViewId();
+        new JSONTask().execute(hot_recipe_json_url);
         new JSONTask().execute(json_url);
     }
 
@@ -66,9 +69,17 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     private class JSONTask extends AsyncTask<String,String,String> {
+        private String url;
+        private ProgressDialog dialog = null;
+        int progress;
 
         @Override
         protected String doInBackground(String... strings) {
+            while(progress<20){
+                progress++;
+                SystemClock.sleep(20);
+            }
+            url = strings[0];
             OkHttpClient client = new OkHttpClient();
             try {
                 Request request = new Request.Builder().url(strings[0]).build();
@@ -83,11 +94,13 @@ public class NewsActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog = ProgressDialog.show(NewsActivity.this, "", "資料載入中...", true);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
 
             Gson gson = new Gson();
             DataColumn[] data = gson.fromJson(s,DataColumn[].class);
@@ -96,8 +109,13 @@ public class NewsActivity extends AppCompatActivity {
             adapter = new GridViewAdapter(NewsActivity.this,1,list);
             setHorizontalGridView(list.size()+10,gridView);
             setHorizontalGridView(list.size()+10,gridView2);
-            gridView.setAdapter(adapter);
-            gridView2.setAdapter(adapter);
+
+            if(url.equals(json_url)){
+                gridView.setAdapter(adapter);
+            }
+            else{
+                gridView2.setAdapter(adapter);
+            }
             adapter.notifyDataSetChanged();
         }
     }

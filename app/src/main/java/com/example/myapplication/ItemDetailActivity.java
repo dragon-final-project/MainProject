@@ -1,8 +1,10 @@
 package com.example.myapplication;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -156,9 +158,15 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     }
 //
     private class JSONTask extends AsyncTask<String,String,String> {
+        private ProgressDialog dialog = null;
+        int progress;
 
         @Override
         protected String doInBackground(String... strings) {
+            while(progress<20){
+                progress++;
+                SystemClock.sleep(20);
+            }
             HashMap<String, String> paramsMap = new HashMap<>();
             paramsMap.put("id", id);
 
@@ -182,11 +190,13 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            dialog = ProgressDialog.show(ItemDetailActivity.this, "", "資料載入中...", true);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
 
             Gson gson = new Gson();
             CommentData[] data = gson.fromJson(s,CommentData[].class);
