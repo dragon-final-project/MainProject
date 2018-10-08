@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -35,7 +36,8 @@ import okhttp3.Response;
 public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton ibLike;
-    private Button btnIngredient,btnInstruction;
+    private Button btnIngredient,btnInstruction,btnSubmit;
+    private EditText etComment;
     private TextView tvTitle,tvName,tvDate;
     private boolean isLike = false;
     private ListView listView;
@@ -105,8 +107,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         ibLike.setOnClickListener(this);
         btnIngredient = findViewById(R.id.btnIngredient);
         btnInstruction = findViewById(R.id.btnInstruction);
+        btnSubmit = findViewById(R.id.btnSubmit);
         btnIngredient.setOnClickListener(this);
         btnInstruction.setOnClickListener(this);
+        btnSubmit.setOnClickListener(this);
+        etComment = findViewById(R.id.etComment);
         ivPic = findViewById(R.id.ivPic);
         listView = findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -153,6 +158,10 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 bundle.putString("id",id);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.btnSubmit:
+                etComment.setText("");
+                Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
                 break;
         }
     }

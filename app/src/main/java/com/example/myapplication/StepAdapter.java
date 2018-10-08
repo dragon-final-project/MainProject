@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -31,8 +32,8 @@ public class StepAdapter extends ArrayAdapter {
             viewHolder = new ViewHolder(
                     (ConstraintLayout)convertView.findViewById(R.id.constraintLayoutItem),
                     (TextView)convertView.findViewById(R.id.tvStep),
-                    (TextView)convertView.findViewById(R.id.tvText),
-                    (ImageView)convertView.findViewById(R.id.ivStep));
+                    (TextView)convertView.findViewById(R.id.tvText));
+                    //(ImageView)convertView.findViewById(R.id.ivStep));
             convertView.setTag(viewHolder);
         }
         else{
@@ -44,19 +45,23 @@ public class StepAdapter extends ArrayAdapter {
         viewHolder.tvStep.setText("Step "+data.getStep());
         viewHolder.tvText.setText(data.getText());
 
+        if(position%2!=0){
+            viewHolder.constraintLayoutItem.setBackgroundColor(Color.rgb(226,235,203));
+        }
+
         return convertView;
     }
 
     private class ViewHolder {
         private ConstraintLayout constraintLayoutItem;
         private TextView tvStep,tvText;
-        private ImageView ivStep;
+        //private ImageView ivStep;
 
-        public ViewHolder(ConstraintLayout constraintLayoutItem,TextView tvStep,TextView tvText,ImageView ivStep){
+        public ViewHolder(ConstraintLayout constraintLayoutItem,TextView tvStep,TextView tvText){
             this.constraintLayoutItem = constraintLayoutItem;
             this.tvStep = tvStep;
             this.tvText = tvText;
-            this.ivStep = ivStep;
+            //this.ivStep = ivStep;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -338,9 +339,9 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            String msg = "File Upload Completed.";
+                            String msg = "上傳成功!\n點此查看分析結果!";
                             messageText.setText(msg);
-                            Toast.makeText(InputActivity.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(InputActivity.this, "上傳成功!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

@@ -148,7 +148,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/etComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -162,7 +162,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button14"
+        android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
         android:layout_height="43dp"
         android:layout_marginBottom="8dp"
@@ -174,6 +174,6 @@
         android:text="傳送"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editText" />
+        app:layout_constraintStart_toEndOf="@+id/etComment" />
 
 </android.support.constraint.ConstraintLayout>

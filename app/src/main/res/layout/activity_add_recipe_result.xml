@@ -47,4 +47,14 @@
         android:layout_alignStart="@+id/ett7"
         android:layout_marginBottom="178dp"
         android:text="作法" />
+
+    <Button
+        android:id="@+id/btnUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp"
+        android:background="#FFEE99"
+        android:text="確定上傳" />
 </RelativeLayout>
