@@ -4,6 +4,7 @@ public class CommentData {
     private String context;
     private String user_id;
     private String name;
+    private String pic_path;
 
     public String getContext() {
         return context;
@@ -27,5 +28,13 @@ public class CommentData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPic_path() {
+        return pic_path;
+    }
+
+    public void setPic_path(String pic_path) {
+        this.pic_path = pic_path;
     }
 }

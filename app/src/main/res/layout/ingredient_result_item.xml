@@ -7,29 +7,26 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvStep"
+        android:id="@+id/tvIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Step1"
+        android:text="食材"
         android:textSize="24sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvNum"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvText"
-        android:layout_width="0dp"
+        android:id="@+id/tvNum"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="把牛肉丟到鍋子裡"
+        android:text="數量"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvStep"
-        app:layout_constraintTop_toBottomOf="@+id/tvStep" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvIngredient"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,11 @@ public class StepData {
     private String step;
     private String text;
 
+    public StepData(String step, String text) {
+        this.step = step;
+        this.text = text;
+    }
+
     public String getStep() {
         return step;
     }

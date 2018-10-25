@@ -67,7 +67,13 @@ public class GridViewAdapter extends ArrayAdapter {
 //        viewHolder.tvName.setText(data.getName());
 //        viewHolder.tvIngredient.setText(data.getIngredients());
 //        viewHolder.tvInstruction.setText(data.getInstruction());
-        viewHolder.tvName.setText(data.getTitle());
+
+        if(data.getTitle().length()>15){
+            viewHolder.tvName.setText(data.getTitle().substring(0,15)+"...");
+        }
+        else{
+            viewHolder.tvName.setText(data.getTitle());
+        }
         viewHolder.tvCreator.setText(data.getName());
 
         if(!data.getImg_path().equals("none")){

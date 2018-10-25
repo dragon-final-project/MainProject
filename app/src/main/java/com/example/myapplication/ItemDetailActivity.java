@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -50,6 +49,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     private String insert_favorite_url = "http://140.117.71.66/project/add_favorite.php";
     private String delete_favorite_url = "http://140.117.71.66/project/delete_favorite.php";
     private String get_all_favorite_url = "http://140.117.71.66/project/get_all_favorite.php";
+    private String insert_comment_url = "http://140.117.71.66/project/add_comment.php";
     private String id;
 
     @Override
@@ -103,7 +103,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         tvTitle = findViewById(R.id.tvTitle);
         tvName = findViewById(R.id.tvName);
         tvDate = findViewById(R.id.tvDate);
-        ibLike = findViewById(R.id.ibView);
+        ibLike = findViewById(R.id.ivView);
         ibLike.setOnClickListener(this);
         btnIngredient = findViewById(R.id.btnIngredient);
         btnInstruction = findViewById(R.id.btnInstruction);
@@ -127,7 +127,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         Intent intent;
         Bundle bundle;
         switch (view.getId()){
-            case R.id.ibView:
+            case R.id.ivView:
                 if(MainActivity.user_id==null){
                     Toast.makeText(ItemDetailActivity.this,"請先登入再進行收藏功能!",Toast.LENGTH_SHORT).show();
                 }
@@ -160,8 +160,39 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.btnSubmit:
-                etComment.setText("");
-                Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
+                if(MainActivity.user_id==null){
+                    Toast.makeText(ItemDetailActivity.this,"請先登入再進行評論功能!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    if(etComment.length()==0) Toast.makeText(ItemDetailActivity.this,"請輸入評論內容!",Toast.LENGTH_SHORT).show();
+                    else{
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                HashMap<String, String> paramsMap = new HashMap<>();
+                                paramsMap.put("user_id",MainActivity.user_id);
+                                paramsMap.put("id", id);
+                                paramsMap.put("context",etComment.getText().toString());
+
+                                FormBody.Builder builder = new FormBody.Builder();
+                                for (String key : paramsMap.keySet()) {
+                                    builder.add(key, paramsMap.get(key));
+                                }
+
+                                OkHttpClient client = new OkHttpClient();
+                                try {
+                                    RequestBody formBody = builder.build();
+                                    Request request = new Request.Builder().url(insert_comment_url).post(formBody).build();
+                                    Response response = client.newCall(request).execute();
+                                } catch (IOException e) {
+                                    Toast.makeText(ItemDetailActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).start();
+                        etComment.setText("");
+                        Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
+                    }
+                }
                 break;
         }
     }

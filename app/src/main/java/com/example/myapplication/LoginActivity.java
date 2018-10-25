@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,6 +85,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            Intent intent = new Intent();
+            setResult(100,intent);
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
     private class SubmitTask extends AsyncTask<String,String,String> {
 
         @Override
@@ -122,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 intent.putExtra("isLogin",true);
                 intent.putExtra("user_id",data.getUser_id());
                 intent.putExtra("name",data.getName());
+                intent.putExtra("pic_path",data.getPic_path());
                 setResult(100,intent);
                 finish();
             }

@@ -14,9 +14,9 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/ivHeaderPic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -37,8 +37,8 @@
         android:text="陳水水"
         android:textColor="#FFF"
         android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/ivHeaderPic"
+        app:layout_constraintTop_toTopOf="@+id/ivHeaderPic" />
 
     <Button
         android:id="@+id/btnHeaderEdit"
@@ -50,7 +50,7 @@
         android:background="#000"
         android:text="編輯"
         android:textColor="#FFF"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/ivHeaderPic"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
     <ImageView
@@ -68,12 +68,12 @@
         android:id="@+id/btnHeaderLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="#000"
         android:text="登出"
         android:textColor="#FFF"
-        android:background="#000"
         app:layout_constraintStart_toEndOf="@+id/btnHeaderEdit"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 

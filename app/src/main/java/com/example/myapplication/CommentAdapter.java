@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -27,7 +28,7 @@ public class CommentAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder viewHolder;
+        final ViewHolder viewHolder;
 
         if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.comment_item,null);
@@ -42,17 +43,28 @@ public class CommentAdapter extends ArrayAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        CommentData data = (CommentData) getItem(position);
+        final CommentData data = (CommentData) getItem(position);
 
         viewHolder.tvComment.setText(data.getContext());
         viewHolder.tvName.setText(data.getName());
 
+        if(data.getPic_path().length()!=0){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(data.getPic_path());
+                    viewHolder.ivProfile.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewHolder.ivProfile.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+            }).start();
+        }
+
         if (position%2==1){
             viewHolder.constraintLayoutItem.setBackgroundColor(Color.rgb(214,215,215));
-            viewHolder.ivProfile.setImageResource(R.drawable.diet);
-        }
-        else{
-            viewHolder.ivProfile.setImageResource(R.drawable.eye);
         }
 
         return convertView;

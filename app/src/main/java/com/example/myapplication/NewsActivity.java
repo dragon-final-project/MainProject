@@ -35,6 +35,7 @@ public class NewsActivity extends AppCompatActivity {
     private String hot_recipe_json_url = "http://140.117.71.66/project/get_hot_recipe.php";
     private GridViewAdapter adapter;
     private static ArrayList<DataColumn> list;
+    private static ArrayList<DataColumn> list2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,24 @@ public class NewsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        gridView2.setOnItemClickListener(new itemClickListener());
+    }
+
+    private class itemClickListener implements AdapterView.OnItemClickListener{
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Bundle bundle = new Bundle();
+            Intent intent = new Intent(NewsActivity.this,ItemDetailActivity.class);
+            bundle.putString("id",list2.get(i).getId());
+            bundle.putString("title",list2.get(i).getTitle());
+            bundle.putString("name",list2.get(i).getName());
+            bundle.putString("created_at",list2.get(i).getCreated_at());
+            bundle.putString("img_path",list2.get(i).getImg_path());
+            //bundle.putByteArray("bitmap",bitmapToBytes(list.get(i).getBitmap()));
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     private class JSONTask extends AsyncTask<String,String,String> {
@@ -104,16 +123,16 @@ public class NewsActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
             DataColumn[] data = gson.fromJson(s,DataColumn[].class);
-            list = new ArrayList<>(Arrays.asList(data));
-
-            adapter = new GridViewAdapter(NewsActivity.this,1,list);
-            setHorizontalGridView(list.size()+10,gridView);
-            setHorizontalGridView(list.size()+10,gridView2);
-
             if(url.equals(json_url)){
+                list = new ArrayList<>(Arrays.asList(data));
+                adapter = new GridViewAdapter(NewsActivity.this,1,list);
+                setHorizontalGridView(list.size()+10,gridView);
                 gridView.setAdapter(adapter);
             }
             else{
+                list2 = new ArrayList<>(Arrays.asList(data));
+                adapter = new GridViewAdapter(NewsActivity.this,1,list2);
+                setHorizontalGridView(list2.size()+10,gridView2);
                 gridView2.setAdapter(adapter);
             }
             adapter.notifyDataSetChanged();
@@ -130,7 +149,8 @@ public class NewsActivity extends AppCompatActivity {
                 .getMetrics(dm);
         float density = dm.density;
         int gridviewWidth = (int) (size * (length) * density);
-        int itemWidth = (int) ((length) * density*2);
+//        int itemWidth = (int) ((length) * density*2);
+        int itemWidth = (int) ((length) * density*3);
 
         @SuppressWarnings("deprecation")
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

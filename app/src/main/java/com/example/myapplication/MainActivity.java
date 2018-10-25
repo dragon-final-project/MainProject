@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,13 +46,15 @@ public class MainActivity extends AppCompatActivity
     private Button btnMeal,btnIngredient,btnNews,btnAddRecipe;
     private Button btnHeaderLogin,btnHeaderView,btnHeaderEdit,btnHeaderLogout;
     private TextView tvHeaderName;
+    private ImageView ivHeaderPic;
     private boolean isLogin = false;
     private static final int LOGIN_REQUEST_CODE = 100;
 
     private DrawerLayout drawerLayout;
 
     public static String user_id;
-    private static String name;
+    public static String name;
+    public static String pic_path;
 
     public static NavigationView navigationView;
     public static View headerLayout;
@@ -190,7 +193,9 @@ public class MainActivity extends AppCompatActivity
         Intent intent;
 
         if (id == R.id.nav_camera) {
-            fragment = new CameraFragment();
+            //fragment = new CameraFragment();
+            intent = new Intent(MainActivity.this,resultActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_album) {
 
         } else if (id == R.id.nav_map) {
@@ -241,19 +246,26 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             case R.id.btnAddRecipe:
-                intent = new Intent(MainActivity.this,AddRecipeActivity.class);
-                startActivity(intent);
+                if(isLogin){
+                    intent = new Intent(MainActivity.this,AddRecipeActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"請先登入再進行此功能!",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btnHeaderLogin:
                 intent = new Intent(MainActivity.this,LoginActivity.class);
                 startActivityForResult(intent,LOGIN_REQUEST_CODE);
+                //startActivity(intent);
                 break;
             case R.id.btnHeaderView:
                 intent = new Intent(MainActivity.this,NewsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btnHeaderEdit:
-                Toast.makeText(MainActivity.this,"Edit",Toast.LENGTH_SHORT).show();
+                intent = new Intent(MainActivity.this,EditActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btnHeaderLogout:
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -283,6 +295,7 @@ public class MainActivity extends AppCompatActivity
             isLogin = data.getBooleanExtra("isLogin",false);
             name = data.getStringExtra("name");
             user_id = data.getStringExtra("user_id");
+            pic_path = data.getStringExtra("pic_path");
 
             if(isLogin){
             navigationView.removeHeaderView(headerLayout);
@@ -292,6 +305,20 @@ public class MainActivity extends AppCompatActivity
             btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
             tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
             tvHeaderName.setText(name);
+            ivHeaderPic = headerLayout.findViewById(R.id.ivHeaderPic);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(pic_path);
+                    ivHeaderPic.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ivHeaderPic.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+            }).start();
             btnHeaderEdit.setOnClickListener(this);
             btnHeaderLogout.setOnClickListener(this);
             }
