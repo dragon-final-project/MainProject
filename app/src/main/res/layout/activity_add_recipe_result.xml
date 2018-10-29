@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1ed7d70e"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textView"
@@ -27,8 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="45dp"
         android:layout_marginTop="149dp"
-        android:text="菜名:"
-        android:textSize="24sp" />
+        android:text="菜名:" />
 
     <TextView
         android:id="@+id/ett7"
@@ -38,18 +37,23 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="35dp"
         android:layout_marginTop="250dp"
-        android:text="食材個數"
-        android:textSize="24sp" />
+        android:text="食材個數" />
 
     <TextView
         android:id="@+id/ett8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView34"
+        android:layout_toEndOf="@+id/textView34" />
+
+    <TextView
+        android:id="@+id/textView34"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/ett7"
-        android:layout_marginBottom="178dp"
-        android:text="作法"
-        android:textSize="24sp" />
+        android:layout_marginBottom="203dp"
+        android:text="作法:" />
 
     <Button
         android:id="@+id/btnUpload"
@@ -60,4 +64,5 @@
         android:layout_marginBottom="27dp"
         android:background="#FFEE99"
         android:text="確定上傳" />
+
 </RelativeLayout>

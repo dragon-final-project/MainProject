@@ -15,124 +15,47 @@
 
         <Button
             android:id="@+id/btnMeal"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="92dp"
-            android:layout_marginLeft="202dp"
-            android:layout_marginRight="92dp"
-            android:layout_marginStart="202dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/breakfast"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="96dp"
+            android:layout_marginStart="96dp"
+            android:layout_marginTop="80dp"
+            android:text="吃什?"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnIngredient"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
-            android:background="@drawable/diet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="88dp"
+            android:layout_marginRight="88dp"
+            android:layout_marginTop="80dp"
+            android:text="煮什?"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMeal" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnNews"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/meeting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.791"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnIngredient" />
-
-        <TextView
-            android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="112dp"
-            android:layout_marginEnd="112dp"
-            android:layout_marginLeft="224dp"
-            android:layout_marginRight="112dp"
-            android:layout_marginStart="224dp"
-            android:layout_marginTop="4dp"
-            android:text="吃什麼?"
-            app:layout_constraintBottom_toTopOf="@+id/btnNews"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMeal" />
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="97dp"
-            android:layout_marginEnd="113dp"
-            android:layout_marginLeft="66dp"
-            android:layout_marginRight="113dp"
-            android:layout_marginStart="66dp"
-            android:layout_marginTop="6dp"
-            android:text="煮什麼?"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddRecipe"
-            app:layout_constraintEnd_toStartOf="@+id/btnNews"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnIngredient" />
-
-        <TextView
-            android:id="@+id/textView28"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="162dp"
-            android:layout_marginEnd="67dp"
-            android:layout_marginLeft="228dp"
-            android:layout_marginRight="67dp"
-            android:layout_marginStart="228dp"
-            android:text="SEEFOOD天地"
+            android:layout_marginBottom="175dp"
+            android:layout_marginEnd="88dp"
+            android:layout_marginRight="88dp"
+            android:text="天地"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnNews" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/btnAddRecipe"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/recipe_book"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.208"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnNews" />
-
-        <TextView
-            android:id="@+id/textView33"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="39dp"
-            android:layout_marginEnd="247dp"
-            android:layout_marginLeft="95dp"
-            android:layout_marginRight="247dp"
-            android:layout_marginStart="95dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginBottom="175dp"
+            android:layout_marginLeft="96dp"
+            android:layout_marginStart="96dp"
             android:text="寫食譜"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAddRecipe" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
