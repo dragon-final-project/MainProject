@@ -37,7 +37,7 @@ public class InstructionActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         id = bundle.getString("id");
 
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.favorite_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

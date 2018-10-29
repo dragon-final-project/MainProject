@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.DrawableWrapper;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     private ImageView ivHeaderPic;
     private boolean isLogin = false;
     private static final int LOGIN_REQUEST_CODE = 100;
+    private SharedPreferences sharedPreferences;
 
     private DrawerLayout drawerLayout;
 
@@ -64,12 +67,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.no_login_main);
 
-//        if(isLogin) {
-//            setContentView(R.layout.activity_main);
-//        }
-//        else{
-//            setContentView(R.layout.no_login_main);
-//        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -88,57 +85,41 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//
-//        View headerLayout = navigationView.getHeaderView(0);
-//        if(isLogin){
-//            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
-//            btnHeaderEdit.setOnClickListener(this);
-//        }else{
-//
-//            btnHeaderLogin = headerLayout.findViewById(R.id.btnHeaderLogin);
-//            btnHeaderView = headerLayout.findViewById(R.id.btnHeaderView);
-//            btnHeaderLogin.setOnClickListener(this);
-//            btnHeaderView.setOnClickListener(this);
-//        }
-
         findViewId();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        sharedPreferences = getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE);
+        readPrefLogin();
 
-//        View headerLayout = navigationView.getHeaderView(0);
-        headerLayout = navigationView.getHeaderView(0);
-
-//        Menu menuLayout = navigationView.getMenu();
-
-        if(isLogin){
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//        headerLayout = navigationView.getHeaderView(0);
+//
+//        if(isLogin){
+//            setLoginInfo();
+//        }else{
 //            navigationView.removeHeaderView(headerLayout);
-//            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-//            navigationView.inflateMenu(R.menu.activity_main_drawer);
-//            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
-//            btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
-//            tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
-//            tvHeaderName.setText(name);
-//            btnHeaderEdit.setOnClickListener(this);
-//            btnHeaderLogout.setOnClickListener(this);
-        }else{
-            navigationView.removeHeaderView(headerLayout);
-            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_no_login);
-            Menu menu = navigationView.getMenu();
-            menu.clear();
+//            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_no_login);
+//            Menu menu = navigationView.getMenu();
+//            menu.clear();
+//
+//            btnHeaderLogin = headerLayout.findViewById(R.id.btnHeaderLogin);
+//            btnHeaderView = headerLayout.findViewById(R.id.btnHeaderView);
+//            btnHeaderLogin.setOnClickListener(this);
+//            btnHeaderView.setOnClickListener(this);
+//        }
+        setToolbar();
+    }
 
-            btnHeaderLogin = headerLayout.findViewById(R.id.btnHeaderLogin);
-            btnHeaderView = headerLayout.findViewById(R.id.btnHeaderView);
-            btnHeaderLogin.setOnClickListener(this);
-            btnHeaderView.setOnClickListener(this);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        savePrefLogin();
+        Menu menu = navigationView.getMenu();
+        menu.clear();
     }
 
     private void findViewId() {
@@ -276,6 +257,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         isLogin = false;
+                        savePrefLogin();
                         onResume();
                     }
                 });
@@ -296,34 +278,78 @@ public class MainActivity extends AppCompatActivity
             name = data.getStringExtra("name");
             user_id = data.getStringExtra("user_id");
             pic_path = data.getStringExtra("pic_path");
-
-            if(isLogin){
-            navigationView.removeHeaderView(headerLayout);
-            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-            navigationView.inflateMenu(R.menu.activity_main_drawer);
-            btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
-            btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
-            tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
-            tvHeaderName.setText(name);
-            ivHeaderPic = headerLayout.findViewById(R.id.ivHeaderPic);
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(pic_path);
-                    ivHeaderPic.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ivHeaderPic.setImageBitmap(bitmap);
-                        }
-                    });
-                }
-            }).start();
-            btnHeaderEdit.setOnClickListener(this);
-            btnHeaderLogout.setOnClickListener(this);
-            }
+            savePrefLogin();
+            readPrefLogin();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void readPrefLogin(){
+        isLogin = sharedPreferences.getBoolean("isLogin",false);
+        user_id = sharedPreferences.getString("user_id","");
+//        String email = sharedPreferences.getString("name","");
+//        String pwd = sharedPreferences.getString("pwd","");
+        name = sharedPreferences.getString("name","");
+        pic_path = sharedPreferences.getString("pic_path","");
+//        String time = sharedPreferences.getString("time","");
+    }
+
+    public void savePrefLogin(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("isLogin",isLogin);
+        editor.putString("user_id",user_id);
+//        editor.putString("email",email);
+//        editor.putString("pwd",user_id);
+        editor.putString("name",name);
+        editor.putString("pic_path",pic_path);
+//        editor.putString("time",time);
+
+        editor.commit();
+    }
+
+    public void setLoginInfo(){
+        navigationView.removeHeaderView(headerLayout);
+        headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        navigationView.inflateMenu(R.menu.activity_main_drawer);
+        btnHeaderEdit = headerLayout.findViewById(R.id.btnHeaderEdit);
+        btnHeaderLogout = headerLayout.findViewById(R.id.btnHeaderLogout);
+        tvHeaderName = headerLayout.findViewById(R.id.tvHeaderName);
+        tvHeaderName.setText(name);
+        ivHeaderPic = headerLayout.findViewById(R.id.ivHeaderPic);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(pic_path);
+                ivHeaderPic.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ivHeaderPic.setImageBitmap(bitmap);
+                    }
+                });
+            }
+        }).start();
+        btnHeaderEdit.setOnClickListener(this);
+        btnHeaderLogout.setOnClickListener(this);
+    }
+
+    public void setToolbar(){
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerLayout = navigationView.getHeaderView(0);
+
+        if(isLogin){
+            setLoginInfo();
+        }else{
+            navigationView.removeHeaderView(headerLayout);
+            headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main_no_login);
+            Menu menu = navigationView.getMenu();
+            menu.clear();
+
+            btnHeaderLogin = headerLayout.findViewById(R.id.btnHeaderLogin);
+            btnHeaderView = headerLayout.findViewById(R.id.btnHeaderView);
+            btnHeaderLogin.setOnClickListener(this);
+            btnHeaderView.setOnClickListener(this);
+        }
+    }
 }

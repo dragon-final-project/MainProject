@@ -99,14 +99,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView13"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+        app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <Button
         android:id="@+id/btnIngredient"
@@ -120,7 +117,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnInstruction"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPic" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     <Button
         android:id="@+id/btnInstruction"
@@ -132,7 +129,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnIngredient"
-        app:layout_constraintTop_toBottomOf="@+id/ivPic" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     <TextView
         android:id="@+id/textView15"
@@ -148,7 +145,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnIngredient" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/favorite_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"

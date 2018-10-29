@@ -113,7 +113,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         btnSubmit.setOnClickListener(this);
         etComment = findViewById(R.id.etComment);
         ivPic = findViewById(R.id.ivPic);
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.favorite_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -5,7 +5,9 @@
     android:id="@+id/constraintLayoutItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1ed7d70e">
+    android:background="#1ed7d70e"
+    tools:layout_editor_absoluteY="25dp"
+    android:descendantFocusability="blocksDescendants">
 
     <ImageButton
         android:id="@+id/ibLike"

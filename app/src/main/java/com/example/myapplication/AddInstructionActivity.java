@@ -113,7 +113,8 @@ public class AddInstructionActivity extends AppCompatActivity {
         ett4Text = ett4[(count-1)].getText();
         str[(count-1)] = ett4Text.toString();
 
-        Intent show = new Intent(this, AddRecipeResultActivity.class);
+        //Intent show = new Intent(this, AddRecipeResultActivity.class);
+        Intent show = new Intent(this, resultActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("n",n);
         bundle.putInt("m",count);

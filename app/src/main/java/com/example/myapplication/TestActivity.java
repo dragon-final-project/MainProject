@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.favorite_list);
         list = new ArrayList<>();
 //        list.add(new DataColumn("涼菜湯","小當家"));
 //        list.add(new DataColumn("涼菜湯","小當家"));

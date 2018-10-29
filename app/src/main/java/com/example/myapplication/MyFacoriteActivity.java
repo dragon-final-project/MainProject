@@ -1,8 +1,11 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,11 +40,34 @@ public class MyFacoriteActivity extends AppCompatActivity {
 //        adapter = new MyFacoriteAdapter(MyFacoriteActivity.this,1,list);
 //        listView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         new JSONTask().execute(json_url);
     }
 
     private void findViewId() {
-        listView = findViewById(R.id.listView);
+        listView = findViewById(R.id.favorite_list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String title = list.get(i).getTitle();
+//                String name = list.get(i).getName();
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent(MyFacoriteActivity.this,ItemDetailActivity.class);
+                bundle.putString("id",list.get(i).getId());
+                bundle.putString("title",list.get(i).getTitle());
+                bundle.putString("name",list.get(i).getName());
+                bundle.putString("created_at",list.get(i).getCreated_at());
+                bundle.putString("img_path",list.get(i).getImg_path());
+                //bundle.putByteArray("bitmap",bitmapToBytes(list.get(i).getBitmap()));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private class JSONTask extends AsyncTask<String,String,String> {
