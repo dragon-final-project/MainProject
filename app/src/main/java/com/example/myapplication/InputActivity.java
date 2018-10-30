@@ -60,7 +60,8 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
     private int serverResponseCode = 0;
     private ProgressDialog dialog = null;
 
-    private String upLoadServerUri = "http://140.117.71.66:8800/app/upload/";
+//    private String upLoadServerUri = "http://140.117.71.66:8800/app/upload/";
+    private String upLoadServerUri = "http://ebde7b63.ngrok.io/model/upload/";
     private String imagepath=null;
 
     private Button btnTextInput,btnCameraInput,btnAlbumInput;
@@ -356,7 +357,8 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                     runOnUiThread(new Runnable() {
                         public void run() {
                             String msg = "上傳成功!\n點此查看分析結果!";
-                            messageText.setText(msg);
+//                            messageText.setText(msg);
+                            messageText.setText(sb);
                             Toast.makeText(InputActivity.this, "上傳成功!", Toast.LENGTH_SHORT).show();
                         }
                     });
