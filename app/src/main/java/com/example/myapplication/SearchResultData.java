@@ -13,6 +13,7 @@ public class SearchResultData implements Parcelable {
     private String name,title,img_path,avg_star;
     private ArrayList<StepData> ingredients;
     private String id;
+    private String created_at;
 
     protected SearchResultData(Parcel in) {
         name = in.readString();
@@ -20,6 +21,7 @@ public class SearchResultData implements Parcelable {
         img_path = in.readString();
         avg_star = in.readString();
         id = in.readString();
+        created_at = in.readString();
     }
 
     public static final Creator<SearchResultData> CREATOR = new Creator<SearchResultData>() {
@@ -90,6 +92,14 @@ public class SearchResultData implements Parcelable {
         this.id = id;
     }
 
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -102,5 +112,6 @@ public class SearchResultData implements Parcelable {
         parcel.writeString(img_path);
         parcel.writeString(avg_star);
         parcel.writeString(id);
+        parcel.writeString(created_at);
     }
 }

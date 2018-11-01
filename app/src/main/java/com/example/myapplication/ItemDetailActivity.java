@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     private String get_all_favorite_url = "http://140.117.71.66/project/get_all_favorite.php";
     private String insert_comment_url = "http://140.117.71.66/project/add_comment.php";
     private String id;
+    private float star;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,31 +170,61 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 else{
                     if(etComment.length()==0) Toast.makeText(ItemDetailActivity.this,"請輸入評論內容!",Toast.LENGTH_SHORT).show();
                     else{
-                        new Thread(new Runnable() {
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                HashMap<String, String> paramsMap = new HashMap<>();
+//                                paramsMap.put("user_id",MainActivity.user_id);
+//                                paramsMap.put("id", id);
+//                                paramsMap.put("context",etComment.getText().toString());
+//
+//                                FormBody.Builder builder = new FormBody.Builder();
+//                                for (String key : paramsMap.keySet()) {
+//                                    builder.add(key, paramsMap.get(key));
+//                                }
+//
+//                                OkHttpClient client = new OkHttpClient();
+//                                try {
+//                                    RequestBody formBody = builder.build();
+//                                    Request request = new Request.Builder().url(insert_comment_url).post(formBody).build();
+//                                    Response response = client.newCall(request).execute();
+//                                } catch (IOException e) {
+//                                    Toast.makeText(ItemDetailActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        }).start();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                        View dialogView = LayoutInflater.from(ItemDetailActivity.this).inflate(R.layout.rating_bar,null);
+                        Button btnRating = dialogView.findViewById(R.id.btnRating);
+                        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+                        final RatingBar ratingBar = dialogView.findViewById(R.id.ratingBar);
+                        btnCancel.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void run() {
-                                HashMap<String, String> paramsMap = new HashMap<>();
-                                paramsMap.put("user_id",MainActivity.user_id);
-                                paramsMap.put("id", id);
-                                paramsMap.put("context",etComment.getText().toString());
-
-                                FormBody.Builder builder = new FormBody.Builder();
-                                for (String key : paramsMap.keySet()) {
-                                    builder.add(key, paramsMap.get(key));
+                            public void onClick(View view) {
+                                star = 0;
+                                addComment();
+                                Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+                        btnRating.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if(ratingBar.getRating()==0){
+                                    Toast.makeText(ItemDetailActivity.this,"請選擇評分星等!",Toast.LENGTH_SHORT).show();
                                 }
-
-                                OkHttpClient client = new OkHttpClient();
-                                try {
-                                    RequestBody formBody = builder.build();
-                                    Request request = new Request.Builder().url(insert_comment_url).post(formBody).build();
-                                    Response response = client.newCall(request).execute();
-                                } catch (IOException e) {
-                                    Toast.makeText(ItemDetailActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+                                else{
+                                    star = ratingBar.getRating();
+                                    addComment();
+                                    Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             }
-                        }).start();
-                        etComment.setText("");
-                        Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
+                        });
+                        builder.setView(dialogView);
+                        builder.show();
+//                        etComment.setText("");
+//                        Toast.makeText(ItemDetailActivity.this,"訊息已傳送!",Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -320,5 +354,32 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void addComment(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, String> paramsMap = new HashMap<>();
+                paramsMap.put("user_id",MainActivity.user_id);
+                paramsMap.put("id", id);
+                paramsMap.put("star",Float.toString(star));
+                paramsMap.put("context",etComment.getText().toString());
+
+                FormBody.Builder builder = new FormBody.Builder();
+                for (String key : paramsMap.keySet()) {
+                    builder.add(key, paramsMap.get(key));
+                }
+
+                OkHttpClient client = new OkHttpClient();
+                try {
+                    RequestBody formBody = builder.build();
+                    Request request = new Request.Builder().url(insert_comment_url).post(formBody).build();
+                    Response response = client.newCall(request).execute();
+                } catch (IOException e) {
+                    Toast.makeText(ItemDetailActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).start();
     }
 }
