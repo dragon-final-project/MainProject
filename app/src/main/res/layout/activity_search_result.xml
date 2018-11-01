@@ -169,12 +169,11 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_margin="0dp"
-            android:layout_marginTop="8dp"
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/textView28">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -190,7 +189,6 @@
                     android:numColumns="auto_fit"
                     android:stretchMode="spacingWidthUniform"></GridView>
             </LinearLayout>
-
         </HorizontalScrollView>
 
         <TextView
@@ -200,7 +198,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="相似料理"
+            android:text="其他相似結果"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sc" />
@@ -233,6 +231,18 @@
             </LinearLayout>
 
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="搜尋結果"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

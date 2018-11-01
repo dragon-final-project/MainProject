@@ -44,18 +44,24 @@ public class MyFacoriteAdapter extends ArrayAdapter {
 
         viewHolder.tvTitle.setText(data.getTitle());
         viewHolder.tvName.setText(data.getName());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(data.getImg_path());
-                viewHolder.ivView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        viewHolder.ivView.setImageBitmap(bitmap);
-                    }
-                });
+
+        if(!data.getImg_path().equals("none")){
+            if(data.getImg_path().startsWith("/media")){
+                data.setImg_path(MainActivity.domain+data.getImg_path());
             }
-        }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final Bitmap bitmap = GridViewAdapter.getBitmapFromURL(data.getImg_path());
+                    viewHolder.ivView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewHolder.ivView.setImageBitmap(bitmap);
+                        }
+                    });
+                }
+            }).start();
+        }
 
         return convertView;
     }

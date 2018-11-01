@@ -6,6 +6,12 @@ public class CommentData {
     private String name;
     private String pic_path;
 
+    public CommentData(String context, String name, String pic_path) {
+        this.context = context;
+        this.name = name;
+        this.pic_path = pic_path;
+    }
+
     public String getContext() {
         return context;
     }

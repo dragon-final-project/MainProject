@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -47,6 +48,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import com.google.gson.reflect.TypeToken;
 
 import static com.example.myapplication.CameraFragment.SELECT_PHOTO;
 
@@ -61,7 +71,8 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog dialog = null;
 
 //    private String upLoadServerUri = "http://140.117.71.66:8800/app/upload/";
-    private String upLoadServerUri = "http://ebde7b63.ngrok.io/model/upload/";
+//    private String dynamicIP = "http://140.117.71.66:8800/app/server_url/";
+    private String upLoadServerUri = MainActivity.domain+"/model/upload/";
     private String imagepath=null;
 
     private Button btnTextInput,btnCameraInput,btnAlbumInput;
@@ -93,6 +104,33 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         else if(INPUT_TYPE==2){
             tvTitle.setText("煮什麼?");
         }
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                FormBody.Builder builder = new FormBody.Builder();
+//                OkHttpClient client = new OkHttpClient();
+//                try {
+//                    RequestBody formBody = builder.build();
+//                    Request request = new Request.Builder().url(dynamicIP).post(formBody).build();
+//                    final Response response = client.newCall(request).execute();
+//
+//                    String res =  response.body().string();;
+//                    int index = res.lastIndexOf("\"url\":");
+//                    upLoadServerUri = res.substring(index+8,res.length()-2);
+//
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Toast.makeText(InputActivity.this,upLoadServerUri,Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//
+//                } catch (IOException e) {
+//                    Toast.makeText(InputActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        }).start();
     }
 
     private void findViewId() {
@@ -357,9 +395,30 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                     runOnUiThread(new Runnable() {
                         public void run() {
                             String msg = "上傳成功!\n點此查看分析結果!";
-//                            messageText.setText(msg);
-                            messageText.setText(sb);
-                            Toast.makeText(InputActivity.this, "上傳成功!", Toast.LENGTH_SHORT).show();
+                            messageText.setText(msg);
+//                            messageText.setText(sb);
+
+                            final ArrayList<SearchResultData> list;
+                            Gson gson = new Gson();
+                            SearchResultData[] data = gson.fromJson(sb.toString(),SearchResultData[].class);
+                            list = new ArrayList<>(Arrays.asList(data));
+//                            String s = "";
+//                            for(int i=0;i<list.size();i++){
+//                                s = s+list.get(i).getId()+"\n";
+//                            }
+//                            messageText.setText(s);
+
+//                            Toast.makeText(InputActivity.this, "上傳成功!", Toast.LENGTH_SHORT).show();
+                            messageText.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putParcelableArrayList("SearchResultData",list);
+                                    Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
                 }

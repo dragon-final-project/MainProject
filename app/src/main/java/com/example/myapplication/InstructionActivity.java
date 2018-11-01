@@ -85,7 +85,7 @@ public class InstructionActivity extends AppCompatActivity {
             StepData[] data = gson.fromJson(s,StepData[].class);
             list = new ArrayList<>(Arrays.asList(data));
 
-            adapter = new StepAdapter(InstructionActivity.this,1,list);
+            adapter = new StepAdapter(InstructionActivity.this,list);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }

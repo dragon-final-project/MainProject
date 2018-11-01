@@ -35,7 +35,7 @@ public class TestActivity extends AppCompatActivity {
 //        list.add(new DataColumn("涼菜湯","小當家"));
 //        list.add(new DataColumn("涼菜湯","小當家"));
 
-        adapter = new GridViewAdapter(TestActivity.this,1,list);
+        adapter = new GridViewAdapter(TestActivity.this,list);
 
         setHorizontalGridView(list.size(), listView);
 

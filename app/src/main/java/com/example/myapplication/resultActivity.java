@@ -83,7 +83,7 @@ public class resultActivity extends AppCompatActivity implements View.OnClickLis
             list2.add(new StepData(Integer.toString(i+1),Method[i]));
         }
 
-        adapter2 = new StepAdapter(resultActivity.this,1,list2);
+        adapter2 = new StepAdapter(resultActivity.this,list2);
         listView2.setAdapter(adapter2);
         adapter2.notifyDataSetChanged();
         //Test();

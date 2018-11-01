@@ -32,14 +32,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     private boolean isLogin = false;
     private static final int LOGIN_REQUEST_CODE = 100;
     private SharedPreferences sharedPreferences;
+    private String dynamicIP = "http://140.117.71.66:8800/app/server_url/";
+    public static String domain = "";
 
     private DrawerLayout drawerLayout;
 
@@ -93,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         sharedPreferences = getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE);
         readPrefLogin();
+        setDynamicIP();
 
 //        navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
@@ -175,7 +183,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             //fragment = new CameraFragment();
-            intent = new Intent(MainActivity.this,resultActivity.class);
+            intent = new Intent(MainActivity.this,GeOneActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_album) {
 
@@ -351,5 +359,27 @@ public class MainActivity extends AppCompatActivity
             btnHeaderLogin.setOnClickListener(this);
             btnHeaderView.setOnClickListener(this);
         }
+    }
+
+    public void setDynamicIP(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FormBody.Builder builder = new FormBody.Builder();
+                OkHttpClient client = new OkHttpClient();
+                try {
+                    RequestBody formBody = builder.build();
+                    Request request = new Request.Builder().url(dynamicIP).post(formBody).build();
+                    final Response response = client.newCall(request).execute();
+
+                    String res =  response.body().string();;
+                    int index = res.lastIndexOf("\"url\":");
+                    domain = res.substring(index+8,res.length()-2);
+
+                } catch (IOException e) {
+                    Toast.makeText(MainActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).start();
     }
 }

@@ -9,17 +9,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StepAdapter extends ArrayAdapter {
+public class StepAdapter extends BaseAdapter {
+    private ArrayList<StepData> list;
     private LayoutInflater layoutInflater;
 
-    public StepAdapter(@NonNull Context context, int resource, @NonNull List objects) {
-        super(context, resource, objects);
+//    public StepAdapter(@NonNull Context context, int resource, @NonNull List objects) {
+//        super(context, resource, objects);
+//        layoutInflater = LayoutInflater.from(context);
+//    }
+    public StepAdapter(Context context, ArrayList<StepData> list){
+        this.list = list;
         layoutInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        //these two methods tells the system that whether adapter
+        // needs to recycle the rows or not, and also how many types of rows we want to display
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @NonNull
@@ -45,7 +79,7 @@ public class StepAdapter extends ArrayAdapter {
         viewHolder.tvStep.setText("Step "+data.getStep());
         viewHolder.tvText.setText(data.getText());
 
-        if(position%2!=0){
+        if((position+1)%2!=0){
             viewHolder.constraintLayoutItem.setBackgroundColor(Color.rgb(226,235,203));
         }
 

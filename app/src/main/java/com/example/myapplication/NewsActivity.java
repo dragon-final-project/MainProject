@@ -125,14 +125,16 @@ public class NewsActivity extends AppCompatActivity {
             DataColumn[] data = gson.fromJson(s,DataColumn[].class);
             if(url.equals(json_url)){
                 list = new ArrayList<>(Arrays.asList(data));
-                adapter = new GridViewAdapter(NewsActivity.this,1,list);
-                setHorizontalGridView(list.size()+10,gridView);
+                adapter = new GridViewAdapter(NewsActivity.this,list);
+//                setHorizontalGridView(list.size()+10,gridView);
+                setHorizontalGridView(list.size()+21,gridView);
                 gridView.setAdapter(adapter);
             }
             else{
                 list2 = new ArrayList<>(Arrays.asList(data));
-                adapter = new GridViewAdapter(NewsActivity.this,1,list2);
-                setHorizontalGridView(list2.size()+10,gridView2);
+                adapter = new GridViewAdapter(NewsActivity.this,list2);
+                //setHorizontalGridView(list2.size()+10,gridView2);
+                setHorizontalGridView(list2.size()+21,gridView2);
                 gridView2.setAdapter(adapter);
             }
             adapter.notifyDataSetChanged();

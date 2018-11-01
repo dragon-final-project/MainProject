@@ -11,18 +11,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentAdapter extends ArrayAdapter {
+public class CommentAdapter extends BaseAdapter {
+    private ArrayList<CommentData> list;
     private LayoutInflater layoutInflater;
 
-    public CommentAdapter(@NonNull Context context, int resource, @NonNull List objects) {
-        super(context, resource, objects);
+//    public CommentAdapter(@NonNull Context context, int resource, @NonNull List objects) {
+//        super(context, resource, objects);
+//        layoutInflater = LayoutInflater.from(context);
+//    }
+    public CommentAdapter(Context context, ArrayList<CommentData> list){
+        this.list = list;
         layoutInflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public int getCount() {
+        return list.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        //these two methods tells the system that whether adapter
+        // needs to recycle the rows or not, and also how many types of rows we want to display
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @NonNull
@@ -63,7 +96,7 @@ public class CommentAdapter extends ArrayAdapter {
             }).start();
         }
 
-        if (position%2==1){
+        if ((position+1)%2!=0){
             viewHolder.constraintLayoutItem.setBackgroundColor(Color.rgb(214,215,215));
         }
 

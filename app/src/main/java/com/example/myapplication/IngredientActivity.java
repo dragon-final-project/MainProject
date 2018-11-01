@@ -85,7 +85,7 @@ public class IngredientActivity extends AppCompatActivity {
             StepData[] data = gson.fromJson(s,StepData[].class);
             list = new ArrayList<>(Arrays.asList(data));
 
-            adapter = new IngredientAdapter(IngredientActivity.this,1,list);
+            adapter = new IngredientAdapter(IngredientActivity.this,list);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }

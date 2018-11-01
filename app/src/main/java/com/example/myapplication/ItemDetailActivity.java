@@ -241,8 +241,11 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
             Gson gson = new Gson();
             CommentData[] data = gson.fromJson(s,CommentData[].class);
             list = new ArrayList<>(Arrays.asList(data));
+            if (list.size()==0){
+                list.add(new CommentData("此文章尚未有留言唷!","See Food小編",""));
+            }
 
-            adapter = new CommentAdapter(ItemDetailActivity.this,1,list);
+            adapter = new CommentAdapter(ItemDetailActivity.this,list);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }

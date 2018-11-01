@@ -22,6 +22,10 @@ public class DataColumn {
         this.bitmap = bitmap;
     }
 
+    public DataColumn(){
+
+    }
+
     public String getId() {
         return id;
     }
