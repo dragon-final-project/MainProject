@@ -27,7 +27,7 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText etUserName,etPwd;
     private TextView tvSignUp;
-    private Button btnLogin;
+    private Button btnLogin,btnView;
 
     private String userName,pwd;
     private StringBuffer hashPwd;
@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etPwd = findViewById(R.id.etPwd);
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
+        btnView = findViewById(R.id.btnView);
+        btnView.setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +83,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                     new SubmitTask().execute(post_url);
                 }
+                break;
+            case R.id.btnView:
+                intent = new Intent(LoginActivity.this,NewsActivity.class);
+                startActivity(intent);
                 break;
         }
     }

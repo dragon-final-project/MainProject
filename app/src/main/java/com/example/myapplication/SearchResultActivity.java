@@ -35,32 +35,47 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private SearchResultAdapter adapter;
     private int padding = 0;
+    private String search_type;
+    int gridView1size;
+    int gridView2size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
-        findViewId();
+//        findViewId();
         Bundle bundle = getIntent().getExtras();
         data = bundle.getParcelableArrayList("SearchResultData");
-        main_result.add(data.get(0));
-        for(int i=1;i<data.size();i++){
-            other_result.add(data.get(i));
+        search_type = bundle.getString("search_type");
+
+        if(search_type.equals("image")){
+            gridView1size = 4;
+            gridView2size = data.size()+8;
+
+            main_result.add(data.get(0));
+            for(int i=1;i<data.size();i++){
+                other_result.add(data.get(i));
+            }
         }
+        else if(search_type.equals("ingredient")){
+            gridView1size = 4;
+            gridView2size = data.size()+12;
 
-//        searchText = bundle.getString("searchText");
-//        etSearchBar.setText(searchText);
-
-//        new JSONTask().execute(json_url);
+            main_result.add(data.get(0));
+            for(int i=1;i<data.size();i++){
+                other_result.add(data.get(i));
+            }
+        }
+        findViewId();
 
         adapter = new SearchResultAdapter(SearchResultActivity.this,main_result);
-        setHorizontalGridView(data.size(),gridView);
+        setHorizontalGridView(gridView1size,gridView);
         gridView.setPadding(padding,0,0,0);
         gridView.setAdapter(adapter);
 
         adapter = new SearchResultAdapter(SearchResultActivity.this,other_result);
-        setHorizontalGridView(data.size()+8,gridView2);
+        setHorizontalGridView(gridView2size,gridView2);
         gridView2.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -122,6 +137,6 @@ public class SearchResultActivity extends AppCompatActivity {
         gridView.setStretchMode(GridView.NO_STRETCH);
         gridView.setNumColumns(size); // 设置列数量=列表集合数
 
-        padding = (dm.widthPixels - gridviewWidth)/2 + 100;
+        padding = (dm.widthPixels - gridviewWidth)/2 + 110;
     }
 }

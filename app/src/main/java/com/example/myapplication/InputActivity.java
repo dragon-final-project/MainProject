@@ -11,8 +11,10 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.FileProvider;
@@ -73,12 +75,14 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 //    private String upLoadServerUri = "http://140.117.71.66:8800/app/upload/";
 //    private String dynamicIP = "http://140.117.71.66:8800/app/server_url/";
     private String upLoadServerUri = MainActivity.domain+"/model/upload/";
+    private String text_Search_url = "http://140.117.71.66/project/get_search_ingredient.php";
     private String imagepath=null;
 
     private Button btnTextInput,btnCameraInput,btnAlbumInput;
     private EditText etSearch;
     private TextView tvTitle,messageText;
     private static int INPUT_TYPE;
+    private ArrayList<SearchResultData> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +160,20 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(View view) {
                         etSearch = dialogView.findViewById(R.id.etSearch);
-                        Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("searchText",etSearch.getText().toString());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                        if(etSearch.getText().length()==0){
+                            Toast.makeText(InputActivity.this, "請輸入搜尋食材名稱!", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            dialog = ProgressDialog.show(InputActivity.this, "", "結果分析中...", true);
+//                            messageText.setText("結果分析中.....");
+                            new JSONTask().execute(text_Search_url,etSearch.getText().toString());
+                        }
+//                        Bundle bundle = new Bundle();
+//                        bundle.putParcelableArrayList("SearchResultData",list);
+//                        bundle.putString("search_type","ingredient");
+//                        Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
                     }
                 });
                 builder.setView(dialogView);
@@ -398,7 +411,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                             messageText.setText(msg);
 //                            messageText.setText(sb);
 
-                            final ArrayList<SearchResultData> list;
+//                            final ArrayList<SearchResultData> list;
                             Gson gson = new Gson();
                             SearchResultData[] data = gson.fromJson(sb.toString(),SearchResultData[].class);
                             list = new ArrayList<>(Arrays.asList(data));
@@ -414,6 +427,7 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                                 public void onClick(View view) {
                                     Bundle bundle = new Bundle();
                                     bundle.putParcelableArrayList("SearchResultData",list);
+                                    bundle.putString("search_type","image");
                                     Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
                                     intent.putExtras(bundle);
                                     startActivity(intent);
@@ -461,5 +475,57 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
             return serverResponseCode;
 
         } // End else block
+    }
+
+    class JSONTask extends AsyncTask<String,String,String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+//                while(progress<20){
+//                    progress++;
+//                    SystemClock.sleep(20);
+//                }
+            HashMap<String, String> paramsMap = new HashMap<>();
+            paramsMap.put("ingredient",strings[1]);
+
+            FormBody.Builder builder = new FormBody.Builder();
+            for (String key : paramsMap.keySet()) {
+                builder.add(key, paramsMap.get(key));
+            }
+
+            OkHttpClient client = new OkHttpClient();
+            try {
+                RequestBody formBody = builder.build();
+                Request request = new Request.Builder().url(text_Search_url).post(formBody).build();
+                Response response = client.newCall(request).execute();
+                return response.body().string();
+            } catch (IOException e) {
+                Toast.makeText(InputActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//                dialog = ProgressDialog.show(InputActivity.this, "", "資料載入中...", true);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.dismiss();
+
+            Gson gson = new Gson();
+            SearchResultData[] data = gson.fromJson(s,SearchResultData[].class);
+            list = new ArrayList<>(Arrays.asList(data));
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("SearchResultData",list);
+            bundle.putString("search_type","ingredient");
+            Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 }
