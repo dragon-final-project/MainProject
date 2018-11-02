@@ -62,7 +62,7 @@ public class resultActivity extends AppCompatActivity implements View.OnClickLis
         Name = bundle.getString("Name");
         tvName.setText(Name);
 
-        listView = findViewById(R.id.favorite_list);
+        listView = findViewById(R.id.comment_list);
 
         list = new ArrayList<>();
 

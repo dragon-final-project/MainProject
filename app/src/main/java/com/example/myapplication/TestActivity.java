@@ -19,7 +19,7 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        listView = findViewById(R.id.favorite_list);
+        listView = findViewById(R.id.comment_list);
         list = new ArrayList<>();
 //        list.add(new DataColumn("涼菜湯","小當家"));
 //        list.add(new DataColumn("涼菜湯","小當家"));

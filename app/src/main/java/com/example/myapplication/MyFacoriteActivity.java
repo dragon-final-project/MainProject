@@ -50,7 +50,7 @@ public class MyFacoriteActivity extends AppCompatActivity {
     }
 
     private void findViewId() {
-        listView = findViewById(R.id.favorite_list);
+        listView = findViewById(R.id.comment_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

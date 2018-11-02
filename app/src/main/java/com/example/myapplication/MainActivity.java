@@ -7,9 +7,12 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.DrawableWrapper;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -100,9 +103,33 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        ConnectivityManager connect = (ConnectivityManager)getSystemService(MainActivity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connect.getActiveNetworkInfo();
+        if(networkInfo==null){
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("受限服務");
+            builder.setMessage("網路服務未開啟，開啟連線後再嘗試!");
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            builder.show();
+        }
+        else{
+            setDynamicIP();
+        }
         sharedPreferences = getSharedPreferences("PREF_LOGIN", Context.MODE_PRIVATE);
         readPrefLogin();
-        setDynamicIP();
+        setToolbar();
 
 //        navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
@@ -121,7 +148,7 @@ public class MainActivity extends AppCompatActivity
 //            btnHeaderLogin.setOnClickListener(this);
 //            btnHeaderView.setOnClickListener(this);
 //        }
-        setToolbar();
+
     }
 
     @Override

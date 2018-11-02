@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -117,11 +118,43 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         btnSubmit.setOnClickListener(this);
         etComment = findViewById(R.id.etComment);
         ivPic = findViewById(R.id.ivPic);
-        listView = findViewById(R.id.favorite_list);
+        listView = findViewById(R.id.comment_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(list.get(i).getUser_id().equals(MainActivity.user_id)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                    builder.setTitle("刪除評論");
+                    builder.setMessage("確定要刪除這筆評論嗎?");
+                    builder.setNegativeButton("取消",null);
+                    builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(ItemDetailActivity.this,"評論已刪除!",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.show();
+                }
+                else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
+                    builder.setTitle("檢舉評論");
+                    builder.setMessage("確定要檢舉這筆評論嗎?");
+                    builder.setNegativeButton("取消",null);
+                    builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(ItemDetailActivity.this,"檢具訊息已送出!",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.show();
+                }
+                return true;
             }
         });
     }

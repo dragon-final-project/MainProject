@@ -24,6 +24,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -516,16 +517,22 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
             super.onPostExecute(s);
             dialog.dismiss();
 
-            Gson gson = new Gson();
-            SearchResultData[] data = gson.fromJson(s,SearchResultData[].class);
-            list = new ArrayList<>(Arrays.asList(data));
+            if(s.equals("[]")){
+                Toast.makeText(InputActivity.this,"查無食譜!",Toast.LENGTH_LONG).show();
+            }
+//            Toast.makeText(InputActivity.this,s,Toast.LENGTH_LONG).show();
+            else{
+                Gson gson = new Gson();
+                SearchResultData[] data = gson.fromJson(s,SearchResultData[].class);
+                list = new ArrayList<>(Arrays.asList(data));
 
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("SearchResultData",list);
-            bundle.putString("search_type","ingredient");
-            Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("SearchResultData",list);
+                bundle.putString("search_type","ingredient");
+                Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
         }
     }
 }
