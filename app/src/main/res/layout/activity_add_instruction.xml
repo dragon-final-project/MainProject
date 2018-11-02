@@ -53,6 +53,14 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/btnBack"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/right_arrow"
+            android:onClick="Nextpage"
+            android:text="放棄編輯" />
+
+        <Button
             android:id="@+id/btn_next"
             android:layout_width="80dp"
             android:layout_height="80dp"

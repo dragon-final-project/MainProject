@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddInstructionActivity extends AppCompatActivity {
 
     TextView
             Step;
     Button
-            btnNew,btnDelect;
+            btnNew,btnDelect,btnBack;
 
     LinearLayout
             lll_in_sv ;
@@ -42,6 +43,7 @@ public class AddInstructionActivity extends AppCompatActivity {
         //btnNext = (Button)findViewById(R.id.btn_next);
         btnNew = (Button)buttonView.findViewById(R.id.btn_new);
         btnDelect = (Button)buttonView.findViewById(R.id.btn_del);
+        btnBack = findViewById(R.id.btnBack);
 
         Bundle bundle = this.getIntent().getExtras();
         Food = bundle.getStringArray("Food");
@@ -89,8 +91,13 @@ public class AddInstructionActivity extends AppCompatActivity {
 
 
                 }
-                count++;
-                addListView();
+                if(ett4[count-1].length()==0){
+                    Toast.makeText(AddInstructionActivity.this,"請先輸入上筆資料後再進行新增!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    count++;
+                    addListView();
+                }
             }
         });
 
@@ -105,25 +112,34 @@ public class AddInstructionActivity extends AppCompatActivity {
                 }
             }
         });
-
-
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddInstructionActivity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
     public void Nextpage(View v){
 
         ett4Text = ett4[(count-1)].getText();
         str[(count-1)] = ett4Text.toString();
 
-        //Intent show = new Intent(this, AddRecipeResultActivity.class);
-        Intent show = new Intent(this, resultActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("n",n);
-        bundle.putInt("m",count);
-        bundle.putStringArray("Food",Food);
-        bundle.putStringArray("Number",Number);
-        bundle.putStringArray("Method",str);
-        bundle.putString("Name",Name);
-        show.putExtras(bundle);
-        startActivity(show);
-
+        if(ett4[count-1].length()==0){
+            Toast.makeText(AddInstructionActivity.this,"請輸入食譜步驟!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            //Intent show = new Intent(this, AddRecipeResultActivity.class);
+            Intent show = new Intent(this, resultActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("n",n);
+            bundle.putInt("m",count);
+            bundle.putStringArray("Food",Food);
+            bundle.putStringArray("Number",Number);
+            bundle.putStringArray("Method",str);
+            bundle.putString("Name",Name);
+            show.putExtras(bundle);
+            startActivity(show);
+        }
     }
 }

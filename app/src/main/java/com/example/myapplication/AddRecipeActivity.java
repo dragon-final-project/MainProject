@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddRecipeActivity extends AppCompatActivity {
 
@@ -19,13 +20,17 @@ public class AddRecipeActivity extends AppCompatActivity {
         EditText ett = (EditText)findViewById(R.id.ett);
         Editable StrName;
         StrName = ett.getText();
-        String Name = StrName.toString();
+        if(StrName.length()==0){
+            Toast.makeText(AddRecipeActivity.this,"請輸入食譜名稱!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String Name = StrName.toString();
 
-        Intent intent = new Intent();
-        intent.setClass(this, AddIngredientActivity.class);
-        intent.putExtra("name",Name);
+            Intent intent = new Intent();
+            intent.setClass(this, AddIngredientActivity.class);
+            intent.putExtra("name",Name);
 
-        startActivity(intent);
-
+            startActivity(intent);
+        }
     }
 }

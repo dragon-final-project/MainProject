@@ -132,7 +132,7 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
         Bundle bundle;
         switch (view.getId()){
             case R.id.ivView:
-                if(MainActivity.user_id==null){
+                if(!MainActivity.isLogin){
                     Toast.makeText(ItemDetailActivity.this,"請先登入再進行收藏功能!",Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -164,35 +164,12 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
                 startActivity(intent);
                 break;
             case R.id.btnSubmit:
-                if(MainActivity.user_id==null){
+                if(!MainActivity.isLogin){
                     Toast.makeText(ItemDetailActivity.this,"請先登入再進行評論功能!",Toast.LENGTH_SHORT).show();
                 }
                 else{
                     if(etComment.length()==0) Toast.makeText(ItemDetailActivity.this,"請輸入評論內容!",Toast.LENGTH_SHORT).show();
                     else{
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                HashMap<String, String> paramsMap = new HashMap<>();
-//                                paramsMap.put("user_id",MainActivity.user_id);
-//                                paramsMap.put("id", id);
-//                                paramsMap.put("context",etComment.getText().toString());
-//
-//                                FormBody.Builder builder = new FormBody.Builder();
-//                                for (String key : paramsMap.keySet()) {
-//                                    builder.add(key, paramsMap.get(key));
-//                                }
-//
-//                                OkHttpClient client = new OkHttpClient();
-//                                try {
-//                                    RequestBody formBody = builder.build();
-//                                    Request request = new Request.Builder().url(insert_comment_url).post(formBody).build();
-//                                    Response response = client.newCall(request).execute();
-//                                } catch (IOException e) {
-//                                    Toast.makeText(ItemDetailActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        }).start();
                         AlertDialog.Builder builder = new AlertDialog.Builder(ItemDetailActivity.this);
                         View dialogView = LayoutInflater.from(ItemDetailActivity.this).inflate(R.layout.rating_bar,null);
                         Button btnRating = dialogView.findViewById(R.id.btnRating);

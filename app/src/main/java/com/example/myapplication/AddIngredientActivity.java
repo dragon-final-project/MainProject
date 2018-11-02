@@ -10,11 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddIngredientActivity extends AppCompatActivity {
 
     Button
-            btnNew,btnDelect;
+            btnNew,btnDelect,btnBack;
 
     LinearLayout
             ll_in_sv,ll ;
@@ -40,6 +41,7 @@ public class AddIngredientActivity extends AppCompatActivity {
         ll_in_sv = (LinearLayout)findViewById(R.id.ll_in_sv);
         btnNew = (Button)buttonView.findViewById(R.id.btn_new);
         btnDelect = (Button)buttonView.findViewById(R.id.btn_del);
+        btnBack = findViewById(R.id.btnBack);
         intent2 = this.getIntent();
         Name = intent2.getStringExtra("name");
 
@@ -89,8 +91,13 @@ public class AddIngredientActivity extends AppCompatActivity {
                     ett3Text = ett3[i].getText();
                     str2[i] = ett3Text.toString();
                 }
-                count++;
-                addListView();
+                if(ett2[count-1].length()==0 || ett3[count-1].length()==0){
+                    Toast.makeText(AddIngredientActivity.this,"請先輸入上筆資料後再進行新增!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    count++;
+                    addListView();
+                }
             }
         });
 
@@ -106,6 +113,13 @@ public class AddIngredientActivity extends AppCompatActivity {
             }
         });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddIngredientActivity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
     }
     public void Nextpage(View v){
 
@@ -116,14 +130,18 @@ public class AddIngredientActivity extends AppCompatActivity {
         ett3Text = ett3[(count-1)].getText();
         str2[(count-1)] = ett3Text.toString();
 
-        Intent intent = new Intent(this, AddInstructionActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("n",count);
-        bundle.putStringArray("Food",str);
-        bundle.putStringArray("Number",str2);
-        bundle.putString("Name",Name);
-        intent.putExtras(bundle);
-        startActivity(intent);
-
+        if(ett2[count-1].length()==0 ||ett3[count-1].length()==0){
+            Toast.makeText(AddIngredientActivity.this,"請輸入食材名稱與數量!",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Intent intent = new Intent(this, AddInstructionActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("n",count);
+            bundle.putStringArray("Food",str);
+            bundle.putStringArray("Number",str2);
+            bundle.putString("Name",Name);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 }

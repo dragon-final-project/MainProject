@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity
     private Button btnHeaderLogin,btnHeaderView,btnHeaderEdit,btnHeaderLogout;
     private TextView tvHeaderName;
     private ImageView ivHeaderPic;
-    private boolean isLogin = false;
+    public static boolean isLogin = false;
     private static final int LOGIN_REQUEST_CODE = 100;
     private SharedPreferences sharedPreferences;
     private String dynamicIP = "http://140.117.71.66:8800/app/server_url/";
@@ -129,6 +130,24 @@ public class MainActivity extends AppCompatActivity
         savePrefLogin();
         Menu menu = navigationView.getMenu();
         menu.clear();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("退出應用程式");
+            builder.setMessage("確定要退出See Food嗎?");
+            builder.setNegativeButton("取消",null);
+            builder.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            builder.show();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void findViewId() {

@@ -26,7 +26,7 @@ import okhttp3.Response;
 
 public class resultActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tvName;
-    private Button btnUpload;
+    private Button btnUpload,btnBack;
     private ListView listView,listView2;
     private recipeResultAdapter adapter;
     private StepAdapter adapter2;
@@ -49,6 +49,8 @@ public class resultActivity extends AppCompatActivity implements View.OnClickLis
         tvName = findViewById(R.id.tvName);
         btnUpload = findViewById(R.id.btnUpload);
         btnUpload.setOnClickListener(this);
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
 
         Bundle bundle =this.getIntent().getExtras();
 
@@ -113,11 +115,16 @@ public class resultActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
+        Intent intent = new Intent();
         switch (view.getId()){
             case R.id.btnUpload:
                 new SubmitTask().execute(post_url);
-                //Toast.makeText(resultActivity.this,"新增成功!",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(resultActivity.this,MainActivity.class);
+                Toast.makeText(resultActivity.this, "上傳食譜成功!", Toast.LENGTH_SHORT).show();
+                intent = new Intent(resultActivity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+            case R.id.btnBack:
+                intent = new Intent(resultActivity.this,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
         }
@@ -159,12 +166,12 @@ public class resultActivity extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            if(s.equals("successful")){
-                Toast.makeText(resultActivity.this, "上傳食譜成功!", Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(resultActivity.this, "上傳失敗!", Toast.LENGTH_SHORT).show();
-            }
+//            if(s.equals("successful")){
+//                Toast.makeText(resultActivity.this, "上傳食譜成功!", Toast.LENGTH_SHORT).show();
+//            }
+//            else{
+//                Toast.makeText(resultActivity.this, "上傳失敗!", Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 

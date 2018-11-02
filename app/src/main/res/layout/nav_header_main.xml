@@ -30,13 +30,14 @@
 
     <TextView
         android:id="@+id/tvHeaderName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
         android:layout_marginStart="32dp"
         android:text="陳水水"
         android:textColor="#FFF"
         android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivHeaderPic"
         app:layout_constraintTop_toTopOf="@+id/ivHeaderPic" />
 
@@ -68,12 +69,15 @@
         android:id="@+id/btnHeaderLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="#000"
         android:text="登出"
         android:textColor="#FFF"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnHeaderEdit"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
