@@ -108,6 +108,7 @@ public class AddInstructionActivity extends AppCompatActivity {
 
                 if (count > 1) {
                     count--;
+                    str[count]="";
                     addListView();
                 }
             }
@@ -122,8 +123,10 @@ public class AddInstructionActivity extends AppCompatActivity {
     }
     public void Nextpage(View v){
 
-        ett4Text = ett4[(count-1)].getText();
-        str[(count-1)] = ett4Text.toString();
+        for(int i=0;i<count;i++) {
+            ett4Text = ett4[i].getText();
+            str[i] = ett4Text.toString();
+        }
 
         if(ett4[count-1].length()==0){
             Toast.makeText(AddInstructionActivity.this,"請輸入食譜步驟!",Toast.LENGTH_SHORT).show();

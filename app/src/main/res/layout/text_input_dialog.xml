@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="#FFEE99"
+        android:background="@drawable/buttonshape"
         android:text="搜尋"
         android:textColor="#000"
         android:textStyle="bold"
