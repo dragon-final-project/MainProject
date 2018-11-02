@@ -15,44 +15,48 @@
 
         <Button
             android:id="@+id/btnMeal"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="96dp"
             android:layout_marginStart="96dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="84dp"
+            android:background="@drawable/buttonshape_green"
             android:text="吃什?"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnIngredient"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="88dp"
-            android:layout_marginRight="88dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="84dp"
+            android:background="@drawable/buttonshape_green"
             android:text="煮什?"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btnMeal"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnNews"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="175dp"
-            android:layout_marginEnd="88dp"
-            android:layout_marginRight="88dp"
-            android:text="天地"
+            android:layout_marginBottom="185dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/buttonshape_green"
+            android:text="Seefood\n天地"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/btnAddRecipe" />
 
         <Button
             android:id="@+id/btnAddRecipe"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="175dp"
+            android:layout_marginBottom="185dp"
             android:layout_marginLeft="96dp"
             android:layout_marginStart="96dp"
+            android:background="@drawable/buttonshape_green"
             android:text="寫食譜"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

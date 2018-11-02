@@ -101,6 +101,8 @@ public class AddIngredientActivity extends AppCompatActivity {
 
                 if (count > 1) {
                     count--;
+                    str[count]="";
+                    str2[count]="";
                     addListView();
                 }
             }
@@ -109,12 +111,14 @@ public class AddIngredientActivity extends AppCompatActivity {
     }
     public void Nextpage(View v){
 
+        for(int i=0;i<count;i++) {
+            ett2Text = ett2[i].getText();
+            str[i] = ett2Text.toString();
 
-        ett2Text = ett2[(count-1)].getText();
-        str[(count-1)] = ett2Text.toString();
+            ett3Text = ett3[i].getText();
+            str2[i] = ett3Text.toString();
+        }
 
-        ett3Text = ett3[(count-1)].getText();
-        str2[(count-1)] = ett3Text.toString();
 
         Intent intent = new Intent(this, AddInstructionActivity.class);
         Bundle bundle = new Bundle();

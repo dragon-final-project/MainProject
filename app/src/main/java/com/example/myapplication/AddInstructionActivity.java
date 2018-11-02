@@ -101,6 +101,7 @@ public class AddInstructionActivity extends AppCompatActivity {
 
                 if (count > 1) {
                     count--;
+                    str[count]="";
                     addListView();
                 }
             }
@@ -110,8 +111,10 @@ public class AddInstructionActivity extends AppCompatActivity {
     }
     public void Nextpage(View v){
 
-        ett4Text = ett4[(count-1)].getText();
-        str[(count-1)] = ett4Text.toString();
+        for(int i=0;i<count;i++) {
+            ett4Text = ett4[i].getText();
+            str[i] = ett4Text.toString();
+        }
 
         //Intent show = new Intent(this, AddRecipeResultActivity.class);
         Intent show = new Intent(this, resultActivity.class);

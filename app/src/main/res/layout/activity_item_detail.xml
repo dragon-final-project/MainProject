@@ -14,9 +14,14 @@
         android:id="@+id/ivPic"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginRight="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnIngredient"
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/noodle" />
@@ -107,12 +112,12 @@
 
     <Button
         android:id="@+id/btnIngredient"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="#FFEE99"
+        android:background="@drawable/buttonshape"
         android:text="食材"
         app:layout_constraintEnd_toStartOf="@+id/btnInstruction"
         app:layout_constraintHorizontal_bias="0.5"
@@ -121,10 +126,10 @@
 
     <Button
         android:id="@+id/btnInstruction"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_marginTop="8dp"
-        android:background="#FFEE99"
+        android:background="@drawable/buttonshape"
         android:text="作法"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -161,31 +166,31 @@
 
     <EditText
         android:id="@+id/etComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="43dp"
         android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="16dp"
         android:background="@android:drawable/edit_text"
         android:ems="10"
         android:hint="你想說什麼"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnSubmit"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="wrap_content"
-        android:layout_height="43dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:background="#FFEE99"
+        android:layout_height="45dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:background="@drawable/buttonshape"
         android:text="傳送"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/etComment" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

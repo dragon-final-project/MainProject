@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="#000"
+    android:background="#b8e1af"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -18,8 +18,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -47,9 +47,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="#000"
+        android:background="@drawable/buttonshape_gray"
         android:text="編輯"
-        android:textColor="#FFF"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/ivHeaderPic"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
@@ -71,9 +71,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="#000"
+        android:background="@drawable/buttonshape_gray"
         android:text="登出"
-        android:textColor="#FFF"
+        android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/btnHeaderEdit"
         app:layout_constraintTop_toBottomOf="@+id/tvHeaderName" />
 
