@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +32,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,17 +152,19 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        Intent intent;
+        final Intent intent;
         switch (view.getId()){
             case R.id.btnTextInput:
                 final AlertDialog.Builder builder = new AlertDialog.Builder(InputActivity.this);
                 final View dialogView = LayoutInflater.from(InputActivity.this).inflate(R.layout.text_input_dialog,null);
                 Button button = dialogView.findViewById(R.id.btnSearch);
+                ImageButton btnMic = dialogView.findViewById(R.id.btnMic);
+                etSearch = dialogView.findViewById(R.id.etSearch);
 
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        etSearch = dialogView.findViewById(R.id.etSearch);
+//                        etSearch = dialogView.findViewById(R.id.etSearch);
                         if(etSearch.getText().length()==0){
                             Toast.makeText(InputActivity.this, "請輸入搜尋食材名稱!", Toast.LENGTH_SHORT).show();
                         }
@@ -175,6 +179,16 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 //                        Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
 //                        intent.putExtras(bundle);
 //                        startActivity(intent);
+                    }
+                });
+
+                btnMic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent1 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                        intent1.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                        intent1.putExtra(RecognizerIntent.EXTRA_PROMPT, "說說你手邊有的食材吧～");
+                        startActivityForResult(intent1,200);
                     }
                 });
                 builder.setView(dialogView);
@@ -219,7 +233,8 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "See Food_" + timeStamp + "_";
-        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+//        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_DCIM);
+        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -290,6 +305,13 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
             ivUpload.setImageBitmap(bitmap);
             builder.setView(dialogView);
             builder.show();
+        }
+
+        else if(requestCode == 200){
+            if(resultCode == RESULT_OK && data != null){
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                etSearch.setText(result.get(0));
+            }
         }
     }
 

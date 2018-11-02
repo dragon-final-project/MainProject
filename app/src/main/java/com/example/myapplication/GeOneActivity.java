@@ -1,12 +1,18 @@
 package com.example.myapplication;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -19,50 +25,33 @@ import okhttp3.Response;
 public class GeOneActivity extends AppCompatActivity {
     private String res;
     private Button btn;
-    private TextView tv;
+    private ImageView imageView;
+    File file;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ge_one);
         btn = findViewById(R.id.btn);
-        tv = findViewById(R.id.tv);
+        imageView = findViewById(R.id.imageView);
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Toast.makeText(GeOneActivity.this,path,Toast.LENGTH_LONG).show();
+        file = new File(path+"/photo.jpg");
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        HashMap<String, String> paramsMap = new HashMap<>();
-                        paramsMap.put("id","00003a70b1");
-
-                        FormBody.Builder builder = new FormBody.Builder();
-                        for (String key : paramsMap.keySet()) {
-                            final String line = paramsMap.get(key);
-
-                            builder.add(key, paramsMap.get(key));
-                        }
-
-                        OkHttpClient client = new OkHttpClient();
-                        try {
-                            RequestBody formBody = builder.build();
-                            Request request = new Request.Builder().url("http://140.117.71.66/project/get_one_recipe_json.php").post(formBody).build();
-                            Response response = client.newCall(request).execute();
-
-                            res = response.body().string();
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    tv.setText(res);
-                                }
-                            });
-
-                        } catch (IOException e) {
-                            Toast.makeText(GeOneActivity.this, "網路連線錯誤!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).start();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                startActivityForResult(intent,100);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==100 && resultCode==RESULT_OK){
+            Uri uri = Uri.parse(file.getAbsolutePath());
+            imageView.setImageURI(uri);
+        }
     }
 }

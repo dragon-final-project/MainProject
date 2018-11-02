@@ -202,7 +202,6 @@ public class InputpictureActivity extends AppCompatActivity implements View.OnCl
                 Uri photoURI = FileProvider.getUriForFile(InputpictureActivity.this,
                         "com.example.android.provider",
                         photoFile);
-
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }

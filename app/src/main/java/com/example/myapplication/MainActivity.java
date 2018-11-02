@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -39,6 +40,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
         ConnectivityManager connect = (ConnectivityManager)getSystemService(MainActivity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connect.getActiveNetworkInfo();
         if(networkInfo==null){
@@ -230,8 +233,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             //fragment = new CameraFragment();
-            intent = new Intent(MainActivity.this,GeOneActivity.class);
-            startActivity(intent);
+//            intent = new Intent(MainActivity.this,GeOneActivity.class);
+//            startActivity(intent);
         } else if (id == R.id.nav_album) {
 
         } else if (id == R.id.nav_map) {
