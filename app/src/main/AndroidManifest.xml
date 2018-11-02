@@ -80,7 +80,8 @@
         <activity android:name=".EditActivity" />
         <activity android:name=".resultActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".GeOneActivity"></activity>
+        <activity android:name=".GeOneActivity" />
+        <activity android:name=".InputpictureActivity"></activity>
     </application>
 
 </manifest>

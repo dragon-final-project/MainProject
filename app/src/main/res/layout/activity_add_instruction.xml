@@ -8,6 +8,17 @@
     android:background="@mipmap/background_write_recipe"
     android:orientation="vertical" >
 
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="#00000000"
+        android:drawableTop="@drawable/error"
+        android:onClick="Nextpage"
+        android:text="放棄編輯" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -52,13 +63,7 @@
         android:layout_alignParentStart="true"
         android:gravity="right">
 
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/right_arrow"
-            android:onClick="Nextpage"
-            android:text="放棄編輯" />
+
 
         <Button
             android:id="@+id/btn_next"

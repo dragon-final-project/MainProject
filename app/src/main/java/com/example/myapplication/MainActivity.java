@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle;
         switch (view.getId()){
             case R.id.btnMeal:
-                intent = new Intent(MainActivity.this,InputActivity.class);
+                intent = new Intent(MainActivity.this,InputpictureActivity.class);
                 bundle = new Bundle();
                 bundle.putInt("INPUT_TYPE",1); //input type = 1 是查詢餐點
                 intent.putExtras(bundle);
