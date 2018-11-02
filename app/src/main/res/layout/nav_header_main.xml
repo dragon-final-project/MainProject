@@ -36,7 +36,7 @@
         android:layout_marginStart="16dp"
         android:text="陳水水"
         android:textColor="#FFF"
-        android:textSize="30sp"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivHeaderPic"
         app:layout_constraintTop_toTopOf="@+id/ivHeaderPic" />
