@@ -1,69 +1,35 @@
 package com.example.myapplication;
 
-import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Environment;
-import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
-import android.support.design.widget.NavigationView;
-import android.support.v4.content.FileProvider;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.util.Log;
+import android.text.Editable;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.internal.LinkedTreeMap;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import com.google.gson.reflect.TypeToken;
-
-import static com.example.myapplication.CameraFragment.SELECT_PHOTO;
 
 public class InputActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -81,11 +47,27 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
     private String text_Search_url = "http://140.117.71.66/project/get_search_ingredient.php";
     private String imagepath=null;
 
-    private Button btnTextInput,btnCameraInput,btnAlbumInput;
+    private Button btnTextInput,btnIngredientInput;
     private EditText etSearch;
     private TextView tvTitle,messageText;
     private static int INPUT_TYPE;
     private ArrayList<SearchResultData> list;
+
+    Button btnNew,btnDelete;
+    LinearLayout ll_in_sv,ll ;
+    View buttonView;
+
+    int count=1;
+    int i = 0;
+    Intent intent2;
+    String Name;
+
+    EditText[] ett2 = new EditText[30];
+    EditText[] ett3 = new EditText[30];
+    String[] str=new String[30];
+    String[] str2=new String[30];
+    Editable ett2Text,ett3Text;
+    ImageButton[] btn_mic = new ImageButton[30];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,23 +124,23 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 
     private void findViewId() {
         btnTextInput = findViewById(R.id.btnTextInput);
-        btnCameraInput = findViewById(R.id.btnCameraInput);
-        btnAlbumInput = findViewById(R.id.btnAlbumInput);
+        btnIngredientInput = findViewById(R.id.btnIngredientInput);
         btnTextInput.setOnClickListener(this);
-        btnCameraInput.setOnClickListener(this);
-        btnAlbumInput.setOnClickListener(this);
+        btnIngredientInput.setOnClickListener(this);
         tvTitle = findViewById(R.id.tvTitle);
     }
 
     @Override
     public void onClick(View view) {
         final Intent intent;
+        final AlertDialog.Builder builder;
+        View dialogView;
         switch (view.getId()){
             case R.id.btnTextInput:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(InputActivity.this);
-                final View dialogView = LayoutInflater.from(InputActivity.this).inflate(R.layout.text_input_dialog,null);
+                builder = new AlertDialog.Builder(InputActivity.this);
+                dialogView = LayoutInflater.from(InputActivity.this).inflate(R.layout.text_input_dialog,null);
                 Button button = dialogView.findViewById(R.id.btnSearch);
-                ImageButton btnMic = dialogView.findViewById(R.id.btnMic);
+                ImageButton btnMic = dialogView.findViewById(R.id.btn_mic);
                 etSearch = dialogView.findViewById(R.id.etSearch);
 
                 button.setOnClickListener(new View.OnClickListener() {
@@ -194,310 +176,63 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                 builder.setView(dialogView);
                 builder.show();
                 break;
-            case R.id.btnCameraInput:
-                dispatchTakePictureIntent();
-                break;
-            case R.id.btnAlbumInput:
-                intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(Intent.createChooser(intent, "Complete action using"), SELECT_PHOTO);
-                break;
-        }
-    }
+            case R.id.btnIngredientInput:
+                builder = new AlertDialog.Builder(InputActivity.this);
+                dialogView = LayoutInflater.from(InputActivity.this).inflate(R.layout.ingredient_input_dialog,null);
+                Button btnSearch = dialogView.findViewById(R.id.btnSearch);
+                Button btnCancel = dialogView.findViewById(R.id.btnCancel);
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(InputActivity.this.getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(InputActivity.this,
-                        "com.example.android.provider",
-                        photoFile);
 
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
-        }
-    }
+                ll_in_sv = dialogView.findViewById(R.id.ll_in_sv);
+                buttonView = LayoutInflater.from(InputActivity.this).inflate(R.layout.button, null);
+                btnNew = buttonView.findViewById(R.id.btn_new);
+                btnDelete = buttonView.findViewById(R.id.btn_del);
+//                btnBack = findViewById(R.id.btnBack);
+                intent2 = this.getIntent();
+                Name = intent2.getStringExtra("name");
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "See Food_" + timeStamp + "_";
-//        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        File storageDir = this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+                btnSearch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(ett2[count-1].length()==0){
+                            Toast.makeText(InputActivity.this,"搜尋欄位不得為空!",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            dialog = ProgressDialog.show(InputActivity.this, "", "結果分析中...", true);
+                            new JSONTask().execute(text_Search_url,"ingredient_search");
+                        }
+                    }
+                });
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
+                btnCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        for(int i=0;i<count;i++) str[i] = "";
+                        count = 1;
+                        addListView();
+                        ett2[count-1].setText("");
+//                        ett3[count-1].setText("");
+                    }
+                });
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == this.RESULT_OK) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_PICK);
-            startActivityForResult(Intent.createChooser(intent, "Complete action using"), SELECT_PHOTO);
-        }
-        else if(requestCode == SELECT_PHOTO && resultCode == this.RESULT_OK){
-            if (Build.VERSION.SDK_INT >= 23) {
-                int hasPermissions = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (hasPermissions != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
-                    return;
-                }
-            }
-
-            final AlertDialog.Builder builder = new AlertDialog.Builder(InputActivity.this);
-            final View dialogView = LayoutInflater.from(InputActivity.this).inflate(R.layout.camera_input_dialog,null);
-            messageText = dialogView.findViewById(R.id.message_text);
-
-            Button btnUpload = dialogView.findViewById(R.id.btnUpload);
-            Button btnSelect = dialogView.findViewById(R.id.btnSelect);
-            ImageView ivUpload = dialogView.findViewById(R.id.ivUpload);
-            btnUpload.setOnClickListener(new View.OnClickListener() { //上傳圖片
-                @Override
-                public void onClick(View view) {
-                    dialog = ProgressDialog.show(InputActivity.this, "", "Uploading file...", true);
-                    messageText.setText("uploading started.....");
-                    new Thread(new Runnable() {
-                        public void run() {
-                            if (Build.VERSION.SDK_INT >= 23) {
-                                int hasPermissions = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                                if (hasPermissions != PackageManager.PERMISSION_GRANTED) {
-                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
-                                    return;
-                                }
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        for(int i=0;i<count;i++){
+                            if(ett2[i].length()!=0){
+                                str[i] = ett2[i].getText().toString();
                             }
-                            uploadFile(imagepath);
                         }
-                    }).start();
-                }
-            });
-
-            btnSelect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_PICK);
-                    startActivityForResult(Intent.createChooser(intent, "Complete action using"), SELECT_PHOTO);
-                }
-            });
-            Uri selectedImageUri = data.getData();
-            imagepath = getPath(selectedImageUri);
-            Bitmap bitmap= BitmapFactory.decodeFile(imagepath);
-            ivUpload.setImageBitmap(bitmap);
-            builder.setView(dialogView);
-            builder.show();
-        }
-
-        else if(requestCode == 200){
-            if(resultCode == RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                etSearch.setText(result.get(0));
-            }
-        }
-    }
-
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = this.managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-    public int uploadFile(String sourceFileUri) {
-
-
-        String fileName = sourceFileUri;
-
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
-
-        if (!sourceFile.isFile()) {
-
-            dialog.dismiss();
-            Toast.makeText(InputActivity.this,"123",Toast.LENGTH_SHORT).show();
-            Log.e("uploadFile", "Source File not exist :"+imagepath);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    messageText.setText("Source File not exist :"+ imagepath);
-                }
-            });
-
-            return 0;
-
-        }
-        else
-        {
-            try {
-
-                // open a URL connection to the Servlet
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL(upLoadServerUri);
-
-                // Open a HTTP  connection to  the URL
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("image_file", fileName);
-
-                dos = new DataOutputStream(conn.getOutputStream());
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"image_file\";filename=\""
-                        + fileName + "\"" + lineEnd);
-
-                dos.writeBytes(lineEnd);
-
-                // create a buffer of  maximum size
-                bytesAvailable = fileInputStream.available();
-
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                }
-
-                // send multipart form data necesssary after file data...
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                // Responses from the server (code and message)
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage();
-
-                Log.i("uploadFile", "HTTP Response is : "
-                        + serverResponseMessage + ": " + serverResponseCode);
-
-                //接收回傳字串
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                final StringBuilder sb = new StringBuilder();
-                String line;
-                while((line=br.readLine())!=null){
-                    sb.append(line+"\n");
-                }
-                br.close();
-//
-//                Gson gson = new Gson();
-//                DataColumn[] data = gson.fromJson(line,DataColumn[].class);
-//                ArrayList<DataColumn> list = new ArrayList<>(Arrays.asList(data));
-//                for(DataColumn s : list){
-//                    Log.i("name: ",s.getName());
-//                    Log.i("ingredients: ",s.getIngredients().toString());
-//                }
-
-                if(serverResponseCode == 200){
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            String msg = "上傳成功!\n點此查看分析結果!";
-                            messageText.setText(msg);
-//                            messageText.setText(sb);
-
-//                            final ArrayList<SearchResultData> list;
-                            Gson gson = new Gson();
-                            SearchResultData[] data = gson.fromJson(sb.toString(),SearchResultData[].class);
-                            list = new ArrayList<>(Arrays.asList(data));
-//                            String s = "";
-//                            for(int i=0;i<list.size();i++){
-//                                s = s+list.get(i).getId()+"\n";
-//                            }
-//                            messageText.setText(s);
-
-//                            Toast.makeText(InputActivity.this, "上傳成功!", Toast.LENGTH_SHORT).show();
-                            messageText.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Bundle bundle = new Bundle();
-                                    bundle.putParcelableArrayList("SearchResultData",list);
-                                    bundle.putString("search_type","image");
-                                    Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
-                                }
-                            });
-                        }
-                    });
-                }
-                else{
-                    messageText.setText("Error");
-                }
-
-                //close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-
-            } catch (MalformedURLException ex) {
-
-                dialog.dismiss();
-                ex.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        messageText.setText("MalformedURLException Exception : check script url.");
-                        Toast.makeText(InputActivity.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-            } catch (Exception e) {
+                addListView();
+                setActions();
 
-                dialog.dismiss();
-                e.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        messageText.setText("Got Exception : see logcat ");
-                        Toast.makeText(InputActivity.this, "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                Log.e("Upload file Exception", "Exception : "  + e.getMessage(), e);
-            }
-            dialog.dismiss();
-            return serverResponseCode;
-
-        } // End else block
+                builder.setView(dialogView);
+                builder.show();
+                break;
+        }
     }
 
     class JSONTask extends AsyncTask<String,String,String> {
@@ -508,12 +243,22 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
 //                    progress++;
 //                    SystemClock.sleep(20);
 //                }
-            HashMap<String, String> paramsMap = new HashMap<>();
-            paramsMap.put("ingredient",strings[1]);
+            HashMap<String, String[]> paramsMap = new HashMap<>();
+            if(strings[1].equals("ingredient_search")){
+                paramsMap.put("ingredient[]",str);
+            }
+            else{
+                paramsMap.put("ingredient",new String[]{strings[1]});
+            }
 
             FormBody.Builder builder = new FormBody.Builder();
             for (String key : paramsMap.keySet()) {
-                builder.add(key, paramsMap.get(key));
+                for (int i=0;i<paramsMap.get(key).length;i++){
+                    String [] s = paramsMap.get(key);
+                    if(s[i]!=null){
+                        builder.add(key,s[i]);
+                    }
+                }
             }
 
             OkHttpClient client = new OkHttpClient();
@@ -554,6 +299,101 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
                 Intent intent = new Intent(InputActivity.this,SearchResultActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        }
+    }
+
+    public void addListView(){
+
+        ll_in_sv.removeAllViews();
+
+        //personal資料來源
+        for (i = 0; i < count; i++) {
+
+            View view = LayoutInflater.from(InputActivity.this).inflate(R.layout.object3, null); //物件來源
+            ll = (LinearLayout) view.findViewById(R.id.ll);
+            ett2[i] = (EditText)ll.findViewById(R.id.ett2);
+            // editTexts[i].setId(i);
+            ett2[i].setText(str[i]);
+
+//            ett3[i] = (EditText)ll.findViewById(R.id.ett3);
+//            ett3[i].setText(str2[i]);
+            btn_mic[i] = ll.findViewById(R.id.btn_mic);
+            btn_mic[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent1 = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    intent1.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    intent1.putExtra(RecognizerIntent.EXTRA_PROMPT, "說說你手邊有的食材吧～");
+                    startActivityForResult(intent1,i-1);
+                }
+            });
+
+
+            ll_in_sv.addView(view);
+        }
+
+        ll_in_sv.addView(buttonView);
+    }
+
+    private void setActions() {
+
+
+        btnNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                for(int i=0;i<count;i++) {
+                    ett2Text = ett2[i].getText();
+                    str[i] = ett2Text.toString();
+
+//                    ett3Text = ett3[i].getText();
+//                    str2[i] = ett3Text.toString();
+                }
+                if(ett2[count-1].length()==0){
+                    Toast.makeText(InputActivity.this,"請先輸入上筆資料後再進行新增!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    if(count>=4){
+                        Toast.makeText(InputActivity.this,"食材查詢欄位至多4項!",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        count++;
+                        addListView();
+                    }
+                }
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if (count > 1) {
+                    count--;
+                    str[count]="";
+//                    str2[count]="";
+                    addListView();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 200){
+            if(resultCode == RESULT_OK && data != null){
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                etSearch.setText(result.get(0));
+            }
+        }
+        else{
+            if(resultCode == RESULT_OK && data != null){
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                ett2[requestCode].setText(result.get(0));
             }
         }
     }

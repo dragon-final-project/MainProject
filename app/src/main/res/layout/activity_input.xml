@@ -24,16 +24,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnCameraInput"
-        android:layout_width="120dp"
-        android:layout_height="55dp"
-        android:background="@drawable/bowl_yellow"
-        android:text="從相機"
-        android:visibility="invisible"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="470dp" />
-
-    <Button
         android:id="@+id/btnTextInput"
         android:layout_width="120dp"
         android:layout_height="55dp"
@@ -49,17 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <Button
-        android:id="@+id/btnAlbumInput"
-        android:layout_width="120dp"
-        android:layout_height="55dp"
-        android:background="@mipmap/bowl_blue"
-        android:text="從相簿"
-        android:visibility="invisible"
-        tools:layout_editor_absoluteX="248dp"
-        tools:layout_editor_absoluteY="460dp" />
-
-    <Button
-        android:id="@+id/button8"
+        android:id="@+id/btnIngredientInput"
         android:layout_width="120dp"
         android:layout_height="55dp"
         android:layout_marginEnd="132dp"
