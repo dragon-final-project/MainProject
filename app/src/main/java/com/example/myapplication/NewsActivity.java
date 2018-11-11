@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import com.bumptech.glide.Glide;
 
 public class NewsActivity extends AppCompatActivity {
     private GridView gridView,gridView2;
@@ -46,6 +48,9 @@ public class NewsActivity extends AppCompatActivity {
         findViewId();
         new JSONTask().execute(hot_recipe_json_url);
         new JSONTask().execute(json_url);
+
+
+
     }
 
     private void findViewId() {

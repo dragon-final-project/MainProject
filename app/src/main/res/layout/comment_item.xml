@@ -5,21 +5,20 @@
     android:id="@+id/constraintLayoutItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1ed7d70e"
+    android:background="@drawable/commentshape_yellow"
     tools:layout_editor_absoluteY="81dp">
 
-    <ImageView
+    <com.github.siyamed.shapeimageview.CircularImageView
         android:id="@+id/ivProfile"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@mipmap/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/logo" />
+         />
 
     <TextView
         android:id="@+id/tvComment"
@@ -52,4 +51,9 @@
         app:layout_constraintBottom_toTopOf="@+id/tvComment"
         app:layout_constraintStart_toEndOf="@+id/ivProfile"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
 </android.support.constraint.ConstraintLayout>
+

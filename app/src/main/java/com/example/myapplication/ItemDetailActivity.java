@@ -35,6 +35,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import com.bumptech.glide.Glide;
 
 public class ItemDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,6 +62,9 @@ public class ItemDetailActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_detail);
+
+        ImageView imageView = (ImageView) findViewById(R.id.ivPic);
+        Glide.with(this).load(R.drawable.loading).into(imageView);
 
         findViewId();
         final Bundle bundle = getIntent().getExtras();

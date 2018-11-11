@@ -96,9 +96,9 @@ public class CommentAdapter extends BaseAdapter {
             }).start();
         }
 
-        if ((position+1)%2!=0){
+      /*  if ((position+1)%2!=0){
             viewHolder.constraintLayoutItem.setBackgroundColor(Color.rgb(214,215,215));
-        }
+        }  */
 
         return convertView;
     }
