@@ -21,7 +21,7 @@
             android:layout_marginStart="96dp"
             android:layout_marginTop="84dp"
             android:background="@drawable/buttonshape_green"
-            android:text="吃什?"
+            android:text="美食世界"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +33,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="84dp"
             android:background="@drawable/buttonshape_green"
-            android:text="煮什?"
+            android:text="食材王國"
             app:layout_constraintStart_toEndOf="@+id/btnMeal"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +57,7 @@
             android:layout_marginLeft="96dp"
             android:layout_marginStart="96dp"
             android:background="@drawable/buttonshape_green"
-            android:text="寫食譜"
+            android:text="烹飪大師"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

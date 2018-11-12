@@ -13,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -57,6 +59,10 @@ public class SearchResultAdapter extends BaseAdapter {
 
         if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.item,null);
+
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.imgMeal);
+            Glide.with(convertView).load(R.drawable.loading).into(imageView);
+
             viewHolder = new ViewHolder(
                     (ConstraintLayout)convertView.findViewById(R.id.constraintLayoutItem),
                     (TextView)convertView.findViewById(R.id.tvName),

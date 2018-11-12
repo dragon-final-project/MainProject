@@ -87,13 +87,13 @@ public class InputActivity extends AppCompatActivity implements View.OnClickList
         Bundle bundle = getIntent().getExtras();
         INPUT_TYPE = bundle.getInt("INPUT_TYPE");
 
-        if(INPUT_TYPE==1){
+    /*    if(INPUT_TYPE==1){
             tvTitle.setText("吃什麼?");
         }
         else if(INPUT_TYPE==2){
             tvTitle.setText("煮什麼?");
         }
-
+       */
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {

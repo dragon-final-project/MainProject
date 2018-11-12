@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -78,6 +79,10 @@ public class GridViewAdapter extends BaseAdapter {
 
         if(convertView == null){
             convertView = layoutInflater.inflate(R.layout.item,null);
+
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.imgMeal);
+            Glide.with(convertView).load(R.drawable.loading).into(imageView);
+
             viewHolder = new ViewHolder(
                     (ConstraintLayout)convertView.findViewById(R.id.constraintLayoutItem),
                     (TextView)convertView.findViewById(R.id.tvName),
